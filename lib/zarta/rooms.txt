@@ -1,0 +1,12 @@
+a red room
+a blue room
+a gold room
+a turquoise room
+a stony room
+a metal room
+a slimy room
+a smelly room
+a orange room
+a bright room
+a dark room
+a green room

@@ -1,0 +1,11 @@
+a Goblin
+a Hobgoblin
+an Orc
+a Slime
+a Rat
+a Bat
+a Wolf
+a Bear
+a Zombie
+a Mummy
+a Ghost

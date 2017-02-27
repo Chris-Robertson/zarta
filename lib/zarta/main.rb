@@ -34,12 +34,18 @@ module Zarta
     def refresh
       Zarta::HUD.new(@dungeon, @player)
 
-      word_start = word_article_type(@dungeon.current_room.description)
-      puts "You are in #{word_start} #{@dungeon.current_room.description} room."
+      word_start = word_article_type(@dungeon.room.description)
+      puts "You are in #{word_start} #{@dungeon.room.description} room."
 
-      puts Zarta::Enemy.new.name if @dungeon.current_room.enemy
+      if @dungeon.room.enemy.is_a?(Zarta::Enemy)
+        puts "There is a #{@dungeon.room.enemy.name} in here!"
+      end
 
-      @dungeon.current_room = next_rooms_prompt
+      if @dungeon.room.weapon.is_a?(Zarta::Weapon)
+        puts "You see a #{@dungeon.room.weapon.name} just laying around."
+      end
+
+      @dungeon.room = next_rooms_prompt
     end
 
     # Makes the dungeon spawn a list of possible rooms connecting here, then
@@ -48,9 +54,7 @@ module Zarta
       @dungeon.new_rooms(@dungeon)
       next_rooms = @dungeon.next_rooms
       next_rooms_options = []
-      next_rooms.each do |room|
-        next_rooms_options << room.description
-      end
+      next_rooms.each { |room| next_rooms_options << room.description }
 
       next_room_choice = @prompt.select(
         'You see these rooms ahead of you. Choose one:', next_rooms_options
@@ -76,23 +80,27 @@ module Zarta
 
       @pastel = Pastel.new
 
-      create_hud_table
+      hud_table
     end
 
     attr_accessor :dungeon, :player
 
-    def create_hud_table
-      hud_table = Terminal::Table.new
-      hud_table.title = @pastel.bright_red(@dungeon.name)
-      hud_table.style = { width: 80, padding_left: 3, border_x: '=' }
-      hud_table.add_row [@player.name, 'LVL: 1']
-      hud_table.add_row [display_health, "EXP: #{@player.xp}"]
-      hud_table.add_row [
-        "Weapon: #{@player.weapon.name} (#{@player.weapon.damage})",
-        "Dungeon Level:  #{@dungeon.current_level}/#{@dungeon.max_level}"
-      ]
+    def hud_table
+      table = Terminal::Table.new
+      table.title = @pastel.bright_red(@dungeon.name)
+      table.style = { width: 80, padding_left: 3, border_x: '=' }
+      table.rows = build_table_rows
+      puts table
+    end
 
-      puts hud_table
+    def build_table_rows
+      t = []
+      t << [@player.name, 'LVL: 1']
+      t << [display_health, "EXP: #{@player.xp}"]
+      t << [
+        "Weapon: #{@player.weapon.name} (#{@player.weapon.damage})",
+        "Dungeon Level:  #{@dungeon.current_level}/#{@dungeon.level}"
+      ]
     end
 
     def display_health

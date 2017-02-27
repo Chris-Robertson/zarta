@@ -11,7 +11,7 @@ module Zarta
     attr_accessor :description
 
     # The deepest level of the dungeon
-    attr_accessor :max_level
+    attr_accessor :level
 
     # The level the player is currently on
     attr_accessor :current_level
@@ -20,7 +20,7 @@ module Zarta
     attr_accessor :room_list
 
     # The current room that the player is in
-    attr_accessor :current_room
+    attr_accessor :room
 
     # The next avaliable rooms from the current one
     attr_accessor :next_rooms
@@ -28,10 +28,10 @@ module Zarta
     def initialize
       @name           = 'The Legendary Dungeon of ZARTA'
       @description    = 'The testiest test dungeon that ever tested!'
-      @max_level      = 10
+      @level          = 10
       @current_level  = 1
       @room_list      = YAML.load_file(__dir__ + '/rooms.yml')
-      @current_room   = Zarta::Room.new(self)
+      @room           = Zarta::Room.new(self)
       @next_rooms     = []
     end
 
@@ -51,19 +51,41 @@ module Zarta
 
     # Base chance of an enemy spawning
     attr_accessor :enemy_chance
+
+    # Base chance of an weapon spawning
+    attr_accessor :weapon_chance
+
+    # Any enemy that has spawned in this room
+    attr_accessor :enemy
+
+    # Any weapon that has spawned in this room
+    attr_accessor :weapon
+
     def initialize(dungeon)
-      @dungeon = dungeon
-      @description = new_description
-      @enemy_chance = 20 + (@dungeon.current_level + 5)
+      @dungeon        = dungeon
+      @description    = new_description
+      @enemy_chance   = 20 + (@dungeon.current_level + 5)
+      @weapon_chance  = 5 + (@dungeon.current_level + 5)
+      populate_room
     end
 
     # Check if an enemy spawned
-    def enemy
+    def enemy_spawned
       @enemy_chance < rand(100)
+    end
+
+    # Check if a weapon spawned
+    def weapon_spawned
+      @weapon_chance < rand(100)
     end
 
     def new_description
       @dungeon.room_list[rand(0...@dungeon.room_list.length)]
+    end
+
+    def populate_room
+      @enemy = Zarta::Enemy.new if enemy_spawned
+      @weapon = Zarta::Weapon.new if weapon_spawned
     end
   end
 

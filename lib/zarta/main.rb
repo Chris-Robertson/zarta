@@ -25,25 +25,26 @@ module Zarta
     def initialize(dungeon, player)
       @dungeon = dungeon
       @player = player
+      @prompt = TTY::Prompt.new
 
       refresh
     end
 
+    # Refreshes the game screen
     def refresh
       Zarta::HUD.new(@dungeon, @player)
 
       word_start = word_article_type(@dungeon.current_room.description)
       puts "You are in #{word_start} #{@dungeon.current_room.description} room."
 
-      if @dungeon.current_room.enemy
-        puts Zarta::Enemy.new.name
-      end
+      puts Zarta::Enemy.new.name if @dungeon.current_room.enemy
 
       @dungeon.current_room = next_rooms_prompt
     end
 
+    # Makes the dungeon spawn a list of possible rooms connecting here, then
+    # prompts the user to chose one.
     def next_rooms_prompt
-      prompt = TTY::Prompt.new
       @dungeon.new_rooms(@dungeon)
       next_rooms = @dungeon.next_rooms
       next_rooms_options = []
@@ -51,7 +52,7 @@ module Zarta
         next_rooms_options << room.description
       end
 
-      next_room_choice = prompt.select(
+      next_room_choice = @prompt.select(
         'You see these rooms ahead of you. Choose one:', next_rooms_options
       )
 
@@ -86,6 +87,10 @@ module Zarta
       hud_table.style = { width: 80, padding_left: 3, border_x: '=' }
       hud_table.add_row [@player.name, 'LVL: 1']
       hud_table.add_row [display_health, "EXP: #{@player.xp}"]
+      hud_table.add_row [
+        "Weapon: #{@player.weapon.name} (#{@player.weapon.damage})",
+        "Dungeon Level:  #{@dungeon.current_level}/#{@dungeon.max_level}"
+      ]
 
       puts hud_table
     end

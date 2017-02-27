@@ -7,29 +7,75 @@ module Zarta
   # Runs the game
   class Engine
     def initialize
-      @dungeon = Zarta::Dungeon.new
-      @player = Zarta::Player.new
+      @dungeon  = Zarta::Dungeon.new
+      @player   = Zarta::Player.new
     end
 
+    # Main game loop
     def play
-      test_hud = Zarta::HUD.new(@dungeon, @player)
-      test_hud.create_hud_table
-
-      test_room = Zarta::Room.new(@dungeon)
-      puts "You are in a #{test_room.description} room."
-      gets
+      loop do
+        system 'clear'
+        Zarta::Screen.new(@dungeon, @player)
+      end
     end
   end
 
-  class Screen; end
-
-  # Displays relevant information at the top of the game screen
-  class HUD
+  # Writes the current game screen
+  class Screen
     def initialize(dungeon, player)
       @dungeon = dungeon
       @player = player
 
+      refresh
+    end
+
+    def refresh
+      Zarta::HUD.new(@dungeon, @player)
+
+      word_start = word_article_type(@dungeon.current_room.description)
+      puts "You are in #{word_start} #{@dungeon.current_room.description} room."
+
+      if @dungeon.current_room.enemy
+        puts Zarta::Enemy.new.name
+      end
+
+      @dungeon.current_room = next_rooms_prompt
+    end
+
+    def next_rooms_prompt
+      prompt = TTY::Prompt.new
+      @dungeon.new_rooms(@dungeon)
+      next_rooms = @dungeon.next_rooms
+      next_rooms_options = []
+      next_rooms.each do |room|
+        next_rooms_options << room.description
+      end
+
+      next_room_choice = prompt.select(
+        'You see these rooms ahead of you. Choose one:', next_rooms_options
+      )
+
+      next_rooms.each do |room|
+        return room if next_room_choice == room.description
+      end
+    end
+
+    # Checks if a word is an 'an' word or an 'a' word.
+    # http://stackoverflow.com/a/18463759/1576860
+    def word_article_type(word)
+      %w(a e i o u).include?(word[0]) ? 'an' : 'a'
+    end
+  end
+
+  # Displays relevant information at the top of the game screen
+  class HUD
+    def initialize(dungeon, player)
+      @dungeon  = dungeon
+      @player   = player
+
       @pastel = Pastel.new
+
+      create_hud_table
     end
 
     attr_accessor :dungeon, :player
@@ -41,7 +87,6 @@ module Zarta
       hud_table.add_row [@player.name, 'LVL: 1']
       hud_table.add_row [display_health, "EXP: #{@player.xp}"]
 
-      system 'clear'
       puts hud_table
     end
 

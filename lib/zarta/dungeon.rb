@@ -31,21 +31,14 @@ module Zarta
       @max_level      = 10
       @level          = 1
       @room_list      = YAML.load_file(__dir__ + '/rooms.yml')
-      @room           = Zarta::Room.new(self)
-      @next_rooms     = []
-    end
-
-    def new_rooms(dungeon)
-      max_rooms = 3
-      @next_rooms = []
-      rand(1..max_rooms).times do
-        @next_rooms << Zarta::Room.new(dungeon)
-      end
     end
   end
 
   # Returns a random room adjective
   class Room
+    # The dungeon that the room is in
+    attr_accessor :dungeon
+
     # The description of the room
     attr_accessor :description
 
@@ -54,6 +47,9 @@ module Zarta
 
     # Base chance of an weapon spawning
     attr_accessor :weapon_chance
+
+    # A list of room objects
+    attr_accessor :next_rooms
 
     # Any enemy that has spawned in this room
     attr_accessor :enemy
@@ -66,7 +62,16 @@ module Zarta
       @description    = new_description
       @enemy_chance   = 20 + (@dungeon.level + 5)
       @weapon_chance  = 5 + (@dungeon.level + 5)
+      @next_rooms     = [] # A list of room objects
       populate_room
+    end
+
+    def new_rooms(dungeon)
+      min_rooms = 2
+      max_rooms = 5
+      rand(min_rooms..max_rooms).times do
+        @next_rooms << Zarta::Room.new(dungeon)
+      end
     end
 
     # Check if an enemy spawned

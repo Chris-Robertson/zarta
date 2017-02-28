@@ -8,6 +8,7 @@ module Zarta
   class Engine
     def initialize
       @dungeon  = Zarta::Dungeon.new
+      @room     = Zarta::Room.new(@dungeon)
       @player   = Zarta::Player.new
     end
 
@@ -15,15 +16,16 @@ module Zarta
     def play
       loop do
         system 'clear'
-        Zarta::Screen.new(@dungeon, @player)
+        Zarta::Screen.new(@dungeon, @room, @player)
       end
     end
   end
 
   # Writes the current game screen
   class Screen
-    def initialize(dungeon, player)
+    def initialize(dungeon, room, player)
       @dungeon = dungeon
+      @room = room
       @player = player
       @prompt = TTY::Prompt.new
 
@@ -32,42 +34,43 @@ module Zarta
 
     # Refreshes the game screen
     def refresh
+      system 'clear'
       Zarta::HUD.new(@dungeon, @player)
 
-      word_start = word_article_type(@dungeon.room.description)
-      puts "You are in #{word_start} #{@dungeon.room.description} room."
+      word_start = beginning(@room.description)
+      puts "You are in #{word_start} #{@room.description} room."
 
-      if @dungeon.room.enemy.is_a?(Zarta::Enemy)
-        puts "There is a #{@dungeon.room.enemy.name} in here!"
+      if @room.enemy.is_a?(Zarta::Enemy)
+        puts "There is a #{@room.enemy.name} in here!"
       end
 
-      if @dungeon.room.weapon.is_a?(Zarta::Weapon)
-        puts "You see a #{@dungeon.room.weapon.name} just laying around."
+      if @room.weapon.is_a?(Zarta::Weapon)
+        puts "You see a #{@room.weapon.name} just laying around."
       end
 
-      @dungeon.room = next_rooms_prompt
+      @room = next_rooms_prompt
+      refresh
     end
 
-    # Makes the dungeon spawn a list of possible rooms connecting here, then
+    # Makes the room spawn a list of possible rooms connecting here, then
     # prompts the user to chose one.
     def next_rooms_prompt
-      @dungeon.new_rooms(@dungeon)
-      next_rooms = @dungeon.next_rooms
       next_rooms_options = []
-      next_rooms.each { |room| next_rooms_options << room.description }
+      @room.new_rooms(@dungeon)
+      @room.next_rooms.each { |room| next_rooms_options << room.description }
 
       next_room_choice = @prompt.select(
         'You see these rooms ahead of you. Choose one:', next_rooms_options
       )
 
-      next_rooms.each do |room|
+      @room.next_rooms.each do |room|
         return room if next_room_choice == room.description
       end
     end
 
     # Checks if a word is an 'an' word or an 'a' word.
     # http://stackoverflow.com/a/18463759/1576860
-    def word_article_type(word)
+    def beginning(word)
       %w(a e i o u).include?(word[0]) ? 'an' : 'a'
     end
   end

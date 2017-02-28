@@ -24,10 +24,10 @@ module Zarta
   # Writes the current game screen
   class Screen
     def initialize(dungeon, room, player)
-      @dungeon = dungeon
-      @room = room
-      @player = player
-      @prompt = TTY::Prompt.new
+      @dungeon  = dungeon
+      @room     = room
+      @player   = player
+      @prompt   = TTY::Prompt.new
 
       refresh
     end
@@ -46,6 +46,14 @@ module Zarta
 
       if @room.weapon.is_a?(Zarta::Weapon)
         puts "You see a #{@room.weapon.name} just laying around."
+      end
+
+      if @room.stairs
+        puts 'You see stairs leading down here.'
+        @dungeon.level += 1 if @prompt.yes?('Go down?')
+        # Spawns a random room for the first room in a new level of the dungeon
+        @room = Zarta::Room.new(@dungeon)
+        refresh
       end
 
       @room = next_rooms_prompt
@@ -80,8 +88,7 @@ module Zarta
     def initialize(dungeon, player)
       @dungeon  = dungeon
       @player   = player
-
-      @pastel = Pastel.new
+      @pastel   = Pastel.new
 
       hud_table
     end

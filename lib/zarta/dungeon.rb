@@ -19,11 +19,8 @@ module Zarta
     # An array of all possible room adjectives
     attr_accessor :room_list
 
-    # The current room that the player is in
-    attr_accessor :room
-
-    # The next avaliable rooms from the current one
-    attr_accessor :next_rooms
+    # The number of rooms passed through since the last set of stairs.
+    attr_accessor :stairs_time
 
     def initialize
       @name           = 'The Legendary Dungeon of ZARTA'
@@ -31,6 +28,7 @@ module Zarta
       @max_level      = 10
       @level          = 1
       @room_list      = YAML.load_file(__dir__ + '/rooms.yml')
+      @stairs_time    = 0
     end
   end
 
@@ -57,12 +55,19 @@ module Zarta
     # Any weapon that has spawned in this room
     attr_accessor :weapon
 
+    # Any stairs that have spawned in this room
+    attr_accessor :stairs
+
     def initialize(dungeon)
-      @dungeon        = dungeon
-      @description    = new_description
-      @enemy_chance   = 20 + (@dungeon.level + 5)
-      @weapon_chance  = 5 + (@dungeon.level + 5)
-      @next_rooms     = [] # A list of room objects
+      @dungeon              = dungeon
+      @description          = new_description
+      @enemy_chance         = 20 + (@dungeon.level + 5)
+      @weapon_chance        = 5 + (@dungeon.level + 5)
+      @next_rooms           = [] # A list of room objects
+      @stairs_chance        = 0
+      @dungeon.stairs_time += 1
+      @stairs               = false
+
       populate_room
     end
 
@@ -84,6 +89,12 @@ module Zarta
       @weapon_chance > rand(100)
     end
 
+    # Check if stairs spawned
+    def stairs_spawned
+      return if @dungeon.level == @dungeon.max_level
+      @stairs_chance + @dungeon.stairs_time > rand(100)
+    end
+
     def new_description
       @dungeon.room_list[rand(0...@dungeon.room_list.length)]
     end
@@ -91,8 +102,7 @@ module Zarta
     def populate_room
       @enemy = Zarta::Enemy.new if enemy_spawned
       @weapon = Zarta::Weapon.new if weapon_spawned
+      @stairs = true && @dungeon.stairs_time = 0 if stairs_spawned
     end
   end
-
-  class Stairs; end
 end

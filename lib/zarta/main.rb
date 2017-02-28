@@ -99,7 +99,7 @@ module Zarta
       t << [display_health, "EXP: #{@player.xp}"]
       t << [
         "Weapon: #{@player.weapon.name} (#{@player.weapon.damage})",
-        "Dungeon Level:  #{@dungeon.current_level}/#{@dungeon.level}"
+        "Dungeon Level:  #{@dungeon.level}/#{@dungeon.max_level}"
       ]
     end
 

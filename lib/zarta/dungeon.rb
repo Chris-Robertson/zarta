@@ -11,10 +11,10 @@ module Zarta
     attr_accessor :description
 
     # The deepest level of the dungeon
-    attr_accessor :level
+    attr_accessor :max_level
 
     # The level the player is currently on
-    attr_accessor :current_level
+    attr_accessor :level
 
     # An array of all possible room adjectives
     attr_accessor :room_list
@@ -28,8 +28,8 @@ module Zarta
     def initialize
       @name           = 'The Legendary Dungeon of ZARTA'
       @description    = 'The testiest test dungeon that ever tested!'
-      @level          = 10
-      @current_level  = 1
+      @max_level      = 10
+      @level          = 1
       @room_list      = YAML.load_file(__dir__ + '/rooms.yml')
       @room           = Zarta::Room.new(self)
       @next_rooms     = []
@@ -64,19 +64,19 @@ module Zarta
     def initialize(dungeon)
       @dungeon        = dungeon
       @description    = new_description
-      @enemy_chance   = 20 + (@dungeon.current_level + 5)
-      @weapon_chance  = 5 + (@dungeon.current_level + 5)
+      @enemy_chance   = 20 + (@dungeon.level + 5)
+      @weapon_chance  = 5 + (@dungeon.level + 5)
       populate_room
     end
 
     # Check if an enemy spawned
     def enemy_spawned
-      @enemy_chance < rand(100)
+      @enemy_chance > rand(100)
     end
 
     # Check if a weapon spawned
     def weapon_spawned
-      @weapon_chance < rand(100)
+      @weapon_chance > rand(100)
     end
 
     def new_description

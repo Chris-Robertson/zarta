@@ -1,0 +1,297 @@
+---
+- 
+  :name: 'Arming sword'
+  :description: 'No description yet.'
+  :damage: 3
+  :rarity: 3
+- 
+  :name: 'Broadsword'
+  :description: 'No description yet.'
+  :damage: 5
+  :rarity: 3
+- 
+  :name: 'Claymore'
+  :description: 'No description yet.'
+  :damage: 7
+  :rarity: 7
+- 
+  :name: 'Falchion'
+  :description: 'No description yet.'
+  :damage: 4
+  :rarity: 3
+- 
+  :name: 'Katana'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 8
+- 
+  :name: 'Longsword'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 6
+- 
+  :name: 'Rapier'
+  :description: 'No description yet.'
+  :damage: 3
+  :rarity: 2
+- 
+  :name: 'Sabre'
+  :description: 'No description yet.'
+  :damage: 3
+  :rarity: 2
+- 
+  :name: 'Shortsword'
+  :description: 'No description yet.'
+  :damage: 1
+  :rarity: 1
+- 
+  :name: 'Zweihander'
+  :description: 'No description yet.'
+  :damage: 8
+  :rarity: 10
+- 
+  :name: 'Gladius'
+  :description: 'No description yet.'
+  :damage: 3
+  :rarity: 3
+- 
+  :name: 'Battle axe'
+  :description: 'No description yet.'
+  :damage: 7
+  :rarity: 6
+- 
+  :name: 'Club'
+  :description: 'No description yet.'
+  :damage: 1
+  :rarity: 1
+- 
+  :name: 'Flail'
+  :description: 'No description yet.'
+  :damage: 3
+  :rarity: 2
+- 
+  :name: 'Mace'
+  :description: 'No description yet.'
+  :damage: 2
+  :rarity: 1
+- 
+  :name: 'Flanged mace'
+  :description: 'No description yet.'
+  :damage: 4
+  :rarity: 6
+- 
+  :name: 'Pernach'
+  :description: 'No description yet.'
+  :damage: 4
+  :rarity: 9
+- 
+  :name: 'Shestopyor'
+  :description: 'No description yet.'
+  :damage: 4
+  :rarity: 8
+- 
+  :name: 'Maul'
+  :description: 'No description yet.'
+  :damage: 2
+  :rarity: 2
+- 
+  :name: 'Morning star'
+  :description: 'No description yet.'
+  :damage: 3
+  :rarity: 2
+- 
+  :name: 'Quarterstaff'
+  :description: 'No description yet.'
+  :damage: 2
+  :rarity: 1
+- 
+  :name: 'War hammer'
+  :description: 'No description yet.'
+  :damage: 8
+  :rarity: 8
+- 
+  :name: 'Bec de Corbin'
+  :description: 'No description yet.'
+  :damage: 8
+  :rarity: 10
+- 
+  :name: 'Horseman’s pick'
+  :description: 'No description yet.'
+  :damage: 9
+  :rarity: 10
+- 
+  :name: 'Bludgeon'
+  :description: 'No description yet.'
+  :damage: 1
+  :rarity: 1
+- 
+  :name: 'Ahlspiess'
+  :description: 'No description yet.'
+  :damage: 4
+  :rarity: 5
+- 
+  :name: 'Bardiche'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 7
+- 
+  :name: 'Bill'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 7
+- 
+  :name: 'Glaive'
+  :description: 'No description yet.'
+  :damage: 7
+  :rarity: 8
+- 
+  :name: 'Guisarme'
+  :description: 'No description yet.'
+  :damage: 7
+  :rarity: 8
+- 
+  :name: 'Halberd'
+  :description: 'No description yet.'
+  :damage: 8
+  :rarity: 8
+- 
+  :name: 'Lance'
+  :description: 'No description yet.'
+  :damage: 4
+  :rarity: 4
+- 
+  :name: 'Lochaber Axe'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 8
+- 
+  :name: 'Lucerne hammer'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 8
+- 
+  :name: 'Man catcher'
+  :description: 'No description yet.'
+  :damage: 5
+  :rarity: 8
+- 
+  :name: 'Military fork'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 6
+- 
+  :name: 'Partisan'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 6
+- 
+  :name: 'Pike'
+  :description: 'No description yet.'
+  :damage: 5
+  :rarity: 4
+- 
+  :name: 'Plançon a picot'
+  :description: 'No description yet.'
+  :damage: 4
+  :rarity: 5
+- 
+  :name: 'Ranseur'
+  :description: 'A spear-headed polearm with a crescent-shaped cross guard
+    resembling a trident.'
+  :damage: 6
+  :rarity: 7
+- 
+  :name: 'Sovnya'
+  :description: 'A long polearm with a single-edged curved blade on the end.'
+  :damage: 6
+  :rarity: 6
+- 
+  :name: 'Spetum'
+  :description: 'A spear-headed polearm with single-edged, curved cross-blades.'
+  :damage: 5
+  :rarity: 6
+- 
+  :name: 'Swordstaff'
+  :description: 'A sword on the end of a staff. Who’d’ve thought it?'
+  :damage: 5
+  :rarity: 5
+- 
+  :name: 'Voulge'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 7
+- 
+  :name: 'War-scythe'
+  :description: 'No description yet.'
+  :damage: 8
+  :rarity: 9
+- 
+  :name: 'War hammer'
+  :description: 'No description yet.'
+  :damage: 9
+  :rarity: 10
+- 
+  :name: 'Bow'
+  :description: 'No description yet.'
+  :damage: 3
+  :rarity: 2
+- 
+  :name: 'Longbow'
+  :description: 'No description yet.'
+  :damage: 6
+  :rarity: 4
+- 
+  :name: 'Recurve bow'
+  :description: 'No description yet.'
+  :damage: 4
+  :rarity: 3
+- 
+  :name: 'Crossbow'
+  :description: 'No description yet.'
+  :damage: 5
+  :rarity: 4
+- 
+  :name: 'Repeating crossbow'
+  :description: 'No description yet.'
+  :damage: 7
+  :rarity: 9
+- 
+  :name: 'Sling'
+  :description: 'No description yet.'
+  :damage: 2
+  :rarity: 1
+- 
+  :name: 'Francisca'
+  :description: 'A throwing axe with an arch-shaped head.'
+  :damage: 3
+  :rarity: 3
+- 
+  :name: 'Nzappa zap'
+  :description: 'A throwing axe with an ornate, wrought iron blade.'
+  :damage: 4
+  :rarity: 4
+- 
+  :name: 'Chakram'
+  :description: 'A circular throwing weapon with a sharp outer edge.'
+  :damage: 4
+  :rarity: 4
+- 
+  :name: 'Hand cannon'
+  :description: 'A rudimentary short-barrelled gunpowder projectile weapon'
+  :damage: 4
+  :rarity: 5
+- 
+  :name: 'Musket'
+  :description: 'A long-barrelled, muzzle-loaded gunpowder projectile weapon'
+  :damage: 7
+  :rarity: 7
+- 
+  :name: 'Throwing Spear'
+  :description: 'No description yet.'
+  :damage: 3
+  :rarity: 3
+- 
+  :name: 'Shuriken'
+  :description: 'No description yet.'
+  :damage: 2
+  :rarity: 1

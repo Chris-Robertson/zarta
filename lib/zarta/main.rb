@@ -30,8 +30,6 @@ module Zarta
 
     # Refreshes the game screen
     def refresh
-      Zarta::HUD.new(@dungeon)
-
       @player.handle_enemy if @dungeon.room.enemy.is_a?(Zarta::Enemy)
 
       @player.handle_weapon if @dungeon.room.weapon.is_a?(Zarta::Weapon)
@@ -42,6 +40,8 @@ module Zarta
         @dungeon.room = Zarta::Room.new(@dungeon)
         refresh
       end
+
+      Zarta::HUD.new(@dungeon)
 
       @dungeon.room = next_rooms_prompt
       refresh
@@ -99,8 +99,8 @@ module Zarta
 
     def build_table_rows
       t = []
-      t << [@player.name, 'LVL: 1']
-      t << [display_health, "EXP: #{@player.xp}"]
+      t << [@player.name, "LVL: #{@player.level}"]
+      t << [display_health, "EXP: #{@player.xp}/#{@player.level * 10}"]
       t << [
         "Weapon: #{@player.weapon.name} (#{@player.weapon.damage})",
         "Dungeon Level:  #{@dungeon.level}/#{@dungeon.max_level}"

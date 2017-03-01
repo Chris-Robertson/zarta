@@ -22,6 +22,9 @@ module Zarta
     # A list of all possible weapon drops
     attr_accessor :weapon_list
 
+    # A list of all possible enemy spawns
+    attr_accessor :enemy_list
+
     # The number of rooms passed through since the last set of stairs.
     attr_accessor :stairs_time
 
@@ -38,6 +41,7 @@ module Zarta
       @level       = 1
       @room_list   = YAML.load_file(__dir__ + '/rooms.yml')
       @weapon_list = YAML.load_file(__dir__ + '/weapons.yml')
+      @enemy_list  = YAML.load_file(__dir__ + '/enemy.yml')
       @stairs_time = 0
       @player      = Zarta::Player.new(self)
       @room        = Zarta::Room.new(self)
@@ -114,7 +118,7 @@ module Zarta
     end
 
     def populate_room
-      @enemy = Zarta::Enemy.new if enemy_spawned
+      @enemy = Zarta::Enemy.new(@dungeon) if enemy_spawned
       @weapon = Zarta::Weapon.new(@dungeon) if weapon_spawned
       @stairs = true && @dungeon.stairs_time = 0 if stairs_spawned
     end

@@ -51,7 +51,7 @@ module Zarta
 
         weapon.inspect_weapon if weapon_choice == 'Look at it'
 
-        return if weapon_choice == 'Leave it'
+        return if weapon_choice == 'Leave it' && @prompt.yes?('Are you sure?')
       end
     end
 
@@ -107,6 +107,74 @@ module Zarta
           gets
           Zarta::HUD.new(@dungeon)
         end
+      end
+    end
+
+    def fight
+      @enemy = @dungeon.room.enemy
+      @enemy_c = @pastel.magenta.bold(@enemy.name)
+      loop do
+        player_hit = @weapon.damage + rand(@level..10) + @level
+        player_hit_c = @pastel.bright_yellow.bold(player_hit)
+        puts "You attack the #{@enemy_c}!"
+        puts "You hit for #{player_hit_c} damage."
+
+        if @enemy.take_damage(player_hit)
+          enemy_killed(@enemy, @enemy_c)
+          break
+        end
+
+        gets
+
+        enemy_hit = (@enemy.weapon.damage +
+                     rand(@enemy.level..10) +
+                     @enemy.level
+                    )
+
+        enemy_hit_c = @pastel.red.bold(enemy_hit)
+        puts "The #{@enemy_c} hits you!"
+        puts "You take #{enemy_hit_c} damage."
+
+        take_damage(enemy_hit)
+
+        gets
+
+        Zarta::HUD.new(@dungeon)
+      end
+    end
+
+    def take_damage(damage)
+      puts "damage: #{damage}"
+      @health[0] -= damage
+      death if @health[0] <= 0
+    end
+
+    def death
+      puts 'You have been killed!'
+      puts "\n#{@pastel.bright_red.bold('GAME OVER')}"
+      gets
+      exit[0]
+    end
+
+    def enemy_killed(enemy, enemy_c)
+      xp_gain = enemy.level + @level + @dungeon.level
+      xp_gain_c = @pastel.bright_white.bold(xp_gain)
+      puts "You have slain the #{enemy_c}!"
+      puts "You are victorious!\n"
+      puts "You gain #{xp_gain_c} Experience."
+
+      gain_xp(xp_gain)
+
+      gets
+
+      Zarta::HUD.new(@dungeon)
+    end
+
+    def gain_xp(xp)
+      @xp += xp
+      if @xp >= @level * 10
+        @level += 1
+        @xp = 0
       end
     end
   end

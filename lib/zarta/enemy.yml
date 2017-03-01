@@ -1,74 +1,289 @@
 ---
-- Ass Centaur
-- Balrog
-- Barrow-Wight
-- Basilisk
-- Cave-troll
-- Catoblepas
-- Centaur
-- Chimera
-- Cold-drake
-- Cyclops
-- Demon
-- Djinni
-- Dragon
-- Dryad
-- Dwarf
-- Elf
-- Ettin
-- Fax-maiden
-- Fire-drake
-- Frost-giant
-- Gargoyle
-- Ghoul
-- Gnome
-- Goblin
-- Griffin
-- Hag
-- Half-orc
-- Half-troll
-- Harpy
-- Hill-men
-- Hill-troll
-- Hippogriff
-- Hobgoblin
-- Kobold
-- Kraken
-- Leprechaun
-- Leviathan
-- Long-worm
-- Manticore
-- Medusa
-- Mermaid
-- Minotaur
-- Mountain-troll
-- Naga
-- Nasir
-- Necromancer
-- Ogre
-- Orc
-- Pegasus
-- Salamander
-- Scorpion-men
-- Shadow Host
-- Silent Watchers
-- Snow-troll
-- Sphinx
-- Spider
-- Stone-giant
-- Stone-troll
-- Succubus
-- Sun-lizard
-- Tengu
-- Troll
-- Two-headed troll
-- Unicorn
-- Vampire
-- Vampire Bat
-- Were-worm
-- Werewolf
-- Werewolf
-- Winged Beast
-- Wolf
-- Worm
-- Wyvern
+- 
+  :name: Ass Centaur
+  :description: 'No description yet'
+  :rarity: 6
+- 
+  :name: Balrog
+  :description: 'No description yet'
+  :rarity: 9
+- 
+  :name: Barrow-Wight
+  :description: 'No description yet'
+  :rarity: 6
+- 
+  :name: Basilisk
+  :description: 'No description yet'
+  :rarity: 3
+- 
+  :name: Cave-troll
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Catoblepas
+  :description: 'No description yet'
+  :rarity: 6
+- 
+  :name: Centaur
+  :description: 'No description yet'
+  :rarity: 3
+- 
+  :name: Chimera
+  :description: 'No description yet'
+  :rarity: 6
+- 
+  :name: Cold-drake
+  :description: 'No description yet'
+  :rarity: 7
+- 
+  :name: Cyclops
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Demon
+  :description: 'No description yet'
+  :rarity: 8
+- 
+  :name: Djinni
+  :description: 'No description yet'
+  :rarity: 6
+- 
+  :name: Dragon
+  :description: 'No description yet'
+  :rarity: 9
+- 
+  :name: Dryad
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Dwarf
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Elf
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Ettin
+  :description: 'No description yet'
+  :rarity: 7
+- 
+  :name: Fox-maiden
+  :description: 'No description yet'
+  :rarity: 3
+- 
+  :name: Fire-drake
+  :description: 'No description yet'
+  :rarity: 8
+- 
+  :name: Frost-giant
+  :description: 'No description yet'
+  :rarity: 7
+- 
+  :name: Gargoyle
+  :description: 'No description yet'
+  :rarity: 6
+- 
+  :name: Ghoul
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Gnome
+  :description: 'No description yet'
+  :rarity: 3
+- 
+  :name: Goblin
+  :description: 'No description yet'
+  :rarity: 1
+- 
+  :name: Griffin
+  :description: 'No description yet'
+  :rarity: 6
+- 
+  :name: Hag
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Half-orc
+  :description: 'No description yet'
+  :rarity: 1
+- 
+  :name: Half-troll
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Harpy
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Hill-man
+  :description: 'No description yet'
+  :rarity: 5
+- 
+  :name: Hill-troll
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Hippogriff
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Hobgoblin
+  :description: 'No description yet'
+  :rarity: 1
+- 
+  :name: Kobold
+  :description: 'No description yet'
+  :rarity: 1
+- 
+  :name: Kraken
+  :description: 'No description yet'
+  :rarity: 5
+- 
+  :name: Leprechaun
+  :description: 'No description yet'
+  :rarity: 10
+- 
+  :name: Leviathan
+  :description: 'No description yet'
+  :rarity: 7
+- 
+  :name: Long-worm
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Manticore
+  :description: 'No description yet'
+  :rarity: 5
+- 
+  :name: Medusa
+  :description: 'No description yet'
+  :rarity: 6
+- 
+  :name: Mermaid
+  :description: 'No description yet'
+  :rarity: 8
+- 
+  :name: Minotaur
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Mountain-troll
+  :description: 'No description yet'
+  :rarity: 3
+- 
+  :name: Naga
+  :description: 'No description yet'
+  :rarity: 3
+- 
+  :name: Nasir
+  :description: 'No description yet'
+  :rarity: 7
+- 
+  :name: Necromancer
+  :description: 'No description yet'
+  :rarity: 5
+- 
+  :name: Ogre
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Orc
+  :description: 'No description yet'
+  :rarity: 1
+- 
+  :name: Pegasus
+  :description: 'No description yet'
+  :rarity: 8
+- 
+  :name: Salamander
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Scorpion-man
+  :description: 'No description yet'
+  :rarity: 5
+- 
+  :name: Shadow Host
+  :description: 'No description yet'
+  :rarity: 8
+- 
+  :name: Silent Watcher
+  :description: 'No description yet'
+  :rarity: 5
+- 
+  :name: Snow-troll
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Sphinx
+  :description: 'No description yet'
+  :rarity: 7
+- 
+  :name: Spider
+  :description: 'No description yet'
+  :rarity: 1
+- 
+  :name: Stone-giant
+  :description: 'No description yet'
+  :rarity: 5
+- 
+  :name: Stone-troll
+  :description: 'No description yet'
+  :rarity: 3
+- 
+  :name: Succubus
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Sun-lizard
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Tengu
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Troll
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Two-headed troll
+  :description: 'No description yet'
+  :rarity: 3
+- 
+  :name: Unicorn
+  :description: 'No description yet'
+  :rarity: 10
+- 
+  :name: Vampire
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Vampire Bat
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Were-worm
+  :description: 'No description yet'
+  :rarity: 5
+- 
+  :name: Werewolf
+  :description: 'No description yet'
+  :rarity: 4
+- 
+  :name: Winged Beast
+  :description: 'No description yet'
+  :rarity: 2
+- 
+  :name: Wolf
+  :description: 'No description yet'
+  :rarity: 1
+- 
+  :name: Worm
+  :description: 'No description yet'
+  :rarity: 1
+- 
+  :name: Wyvern
+  :description: 'No description yet'
+  :rarity: 3

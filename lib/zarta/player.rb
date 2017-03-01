@@ -126,10 +126,9 @@ module Zarta
 
         gets
 
-        enemy_hit = (@enemy.weapon.damage +
-                     rand(@enemy.level) +
-                     @enemy.level
-                    )
+        base = @enemy.weapon.damage + rand(@enemy.level) + @enemy.level
+
+        enemy_hit = base.round
 
         enemy_hit_c = @pastel.red.bold(enemy_hit)
         puts "The #{@enemy_c} hits you!"

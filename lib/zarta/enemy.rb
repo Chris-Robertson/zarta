@@ -33,6 +33,7 @@ module Zarta
     end
 
     def pick_enemy
+      return if boss_spawn
       spawn_list = []
       @dungeon.enemy_list.each do |enemy|
         spawn_list << enemy if enemy[:rarity] <= chance
@@ -65,6 +66,20 @@ module Zarta
       @health[0] -= damage
       return true if @health[0] <= 0
       false
+    end
+
+    def boss_spawn
+      return false if @dungeon.level < @dungeon.max_level
+      return false if rand(100) > @dungeon.stairs_time
+
+      @name = 'BOSS!'
+      @description = 'The BOSS!'
+      @rarity = 20
+
+      @level = rand(@dungeon.player.level..(@dungeon.player.level * 2))
+      set_health
+      pick_weapon
+      true
     end
   end
 end

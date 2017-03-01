@@ -32,10 +32,7 @@ module Zarta
     def refresh
       Zarta::HUD.new(@dungeon)
 
-
-      if @dungeon.room.enemy.is_a?(Zarta::Enemy)
-        puts "There is a #{@dungeon.room.enemy.name} in here!"
-      end
+      @player.handle_enemy if @dungeon.room.enemy.is_a?(Zarta::Enemy)
 
       @player.handle_weapon if @dungeon.room.weapon.is_a?(Zarta::Weapon)
 
@@ -55,7 +52,9 @@ module Zarta
     def next_rooms_prompt
       next_rooms_options = []
       @dungeon.room.new_rooms(@dungeon)
-      @dungeon.room.next_rooms.each { |room| next_rooms_options << room.description }
+      @dungeon.room.next_rooms.each do |room|
+        next_rooms_options << room.description
+      end
 
       next_room_choice = @prompt.select(
         'You see these rooms ahead of you. Choose one:', next_rooms_options

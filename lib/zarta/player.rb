@@ -65,9 +65,48 @@ module Zarta
 
     def pickup_weapon(weapon)
       puts 'Your current weapon will be replaced.'
-      if @prompt.yes?('Are you sure?')
-        @weapon = weapon
-        Zarta::HUD.new(@dungeon)
+      @weapon = weapon if @prompt.yes?('Are you sure?')
+
+      Zarta::HUD.new(@dungeon)
+    end
+
+    def handle_enemy
+      @current_enemy = @dungeon.room.enemy.name
+      @current_enemy = @pastel.magenta.bold(@current_enemy)
+      puts "There is a #{@current_enemy} in here!"
+
+      enemy_choice = @prompt.select('What do you want to do?') do |menu|
+        menu.choice 'Fight!'
+        menu.choice 'Flee!'
+      end
+
+      fight if enemy_choice == 'Fight!'
+      flee if enemy_choice == 'Flee!'
+    end
+
+    def flee
+      return unless @prompt.yes?('Try to flee?')
+      @flee_chance = 0
+      loop do
+        puts "You try to get away from the #{@current_enemy}"
+        gets
+        if @flee_chance + @dungeon.level + @level < rand(1..10)
+          puts 'You are successful!'
+          gets
+          Zarta::HUD.new(@dungeon)
+          break
+        else
+          this_hit = @dungeon.room.enemy.damage
+          @health[0] -= this_hit
+          this_hit = @pastel.red.bold(this_hit)
+          puts "The #{@current_enemy} hits you as you try to flee!"
+          puts "You take #{this_hit} hits you as you try to flee!\n"
+
+          @flee_chance -= 1
+
+          gets
+          Zarta::HUD.new(@dungeon)
+        end
       end
     end
   end

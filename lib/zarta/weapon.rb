@@ -38,5 +38,11 @@ module Zarta
     def chance
       (@player.level + @dungeon.level) / 2
     end
+
+    def inspect_weapon
+      puts @name
+      puts @description
+      puts "Base damage: #{@damage}"
+    end
   end
 end

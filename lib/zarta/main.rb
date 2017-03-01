@@ -13,7 +13,6 @@ module Zarta
     # Main game loop
     def play
       loop do
-        system 'clear'
         Zarta::Screen.new(@dungeon)
       end
     end
@@ -23,7 +22,6 @@ module Zarta
   class Screen
     def initialize(dungeon)
       @dungeon  = dungeon
-      @room     = @dungeon.room
       @player   = @dungeon.player
       @prompt   = TTY::Prompt.new
 
@@ -32,29 +30,23 @@ module Zarta
 
     # Refreshes the game screen
     def refresh
-      system 'clear'
       Zarta::HUD.new(@dungeon)
 
-      word_start = beginning(@room.description)
-      puts "You are in #{word_start} #{@room.description} room."
 
-      if @room.enemy.is_a?(Zarta::Enemy)
-        puts "There is a #{@room.enemy.name} in here!"
+      if @dungeon.room.enemy.is_a?(Zarta::Enemy)
+        puts "There is a #{@dungeon.room.enemy.name} in here!"
       end
 
-      if @room.weapon.is_a?(Zarta::Weapon)
-        puts "You see a #{@room.weapon.name} just laying around."
-      end
+      @player.handle_weapon if @dungeon.room.weapon.is_a?(Zarta::Weapon)
 
-      if @room.stairs
+      if @dungeon.room.stairs
         puts 'You see stairs leading down here.'
         @dungeon.level += 1 if @prompt.yes?('Go down?')
-        # Spawns a random room for the first room in a new level of the dungeon
-        @room = Zarta::Room.new(@dungeon)
+        @dungeon.room = Zarta::Room.new(@dungeon)
         refresh
       end
 
-      @room = next_rooms_prompt
+      @dungeon.room = next_rooms_prompt
       refresh
     end
 
@@ -62,22 +54,16 @@ module Zarta
     # prompts the user to chose one.
     def next_rooms_prompt
       next_rooms_options = []
-      @room.new_rooms(@dungeon)
-      @room.next_rooms.each { |room| next_rooms_options << room.description }
+      @dungeon.room.new_rooms(@dungeon)
+      @dungeon.room.next_rooms.each { |room| next_rooms_options << room.description }
 
       next_room_choice = @prompt.select(
         'You see these rooms ahead of you. Choose one:', next_rooms_options
       )
 
-      @room.next_rooms.each do |room|
+      @dungeon.room.next_rooms.each do |room|
         return room if next_room_choice == room.description
       end
-    end
-
-    # Checks if a word is an 'an' word or an 'a' word.
-    # http://stackoverflow.com/a/18463759/1576860
-    def beginning(word)
-      %w(a e i o u).include?(word[0]) ? 'an' : 'a'
     end
   end
 
@@ -96,7 +82,20 @@ module Zarta
       table.title = @pastel.bright_red(@dungeon.name)
       table.style = { width: 80, padding_left: 3, border_x: '=' }
       table.rows = build_table_rows
+      system 'clear'
       puts table
+      puts room_description
+    end
+
+    def room_description
+      word_start = beginning(@dungeon.room.description)
+      puts "You are in #{word_start} #{@dungeon.room.description} room."
+    end
+
+    # Checks if a word is an 'an' word or an 'a' word.
+    # http://stackoverflow.com/a/18463759/1576860
+    def beginning(word)
+      %w(a e i o u).include?(word[0]) ? 'an' : 'a'
     end
 
     def build_table_rows

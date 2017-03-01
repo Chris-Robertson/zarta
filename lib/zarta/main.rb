@@ -7,26 +7,24 @@ module Zarta
   # Runs the game
   class Engine
     def initialize
-      @dungeon  = Zarta::Dungeon.new
-      @room     = Zarta::Room.new(@dungeon)
-      @player   = Zarta::Player.new
+      @dungeon = Zarta::Dungeon.new
     end
 
     # Main game loop
     def play
       loop do
         system 'clear'
-        Zarta::Screen.new(@dungeon, @room, @player)
+        Zarta::Screen.new(@dungeon)
       end
     end
   end
 
   # Writes the current game screen
   class Screen
-    def initialize(dungeon, room, player)
+    def initialize(dungeon)
       @dungeon  = dungeon
-      @room     = room
-      @player   = player
+      @room     = @dungeon.room
+      @player   = @dungeon.player
       @prompt   = TTY::Prompt.new
 
       refresh
@@ -35,7 +33,7 @@ module Zarta
     # Refreshes the game screen
     def refresh
       system 'clear'
-      Zarta::HUD.new(@dungeon, @player)
+      Zarta::HUD.new(@dungeon)
 
       word_start = beginning(@room.description)
       puts "You are in #{word_start} #{@room.description} room."
@@ -85,15 +83,13 @@ module Zarta
 
   # Displays relevant information at the top of the game screen
   class HUD
-    def initialize(dungeon, player)
+    def initialize(dungeon)
       @dungeon  = dungeon
-      @player   = player
+      @player   = @dungeon.player
       @pastel   = Pastel.new
 
       hud_table
     end
-
-    attr_accessor :dungeon, :player
 
     def hud_table
       table = Terminal::Table.new

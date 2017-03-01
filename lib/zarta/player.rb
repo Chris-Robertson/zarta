@@ -18,12 +18,17 @@ module Zarta
     # The player's current weapon
     attr_accessor :weapon
 
-    def initialize
-      @name   = 'Testy McTestface'
-      @health = [100, 100]
-      @level  = 1
-      @xp     = 0
-      @weapon = Zarta::Weapon.new
+    def initialize(dungeon)
+      @name    = 'Testy McTestface'
+      @health  = [100, 100]
+      @level   = 1
+      @xp      = 0
+      @weapon  = []
+      @dungeon = dungeon
+    end
+
+    def starting_weapon
+      @weapon = Zarta::Weapon.new(@dungeon)
     end
   end
 end

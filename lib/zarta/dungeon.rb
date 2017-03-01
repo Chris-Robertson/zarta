@@ -19,16 +19,30 @@ module Zarta
     # An array of all possible room adjectives
     attr_accessor :room_list
 
+    # A list of all possible weapon drops
+    attr_accessor :weapon_list
+
     # The number of rooms passed through since the last set of stairs.
     attr_accessor :stairs_time
 
+    # The player
+    attr_accessor :player
+
+    # The current room
+    attr_accessor :room
+
     def initialize
-      @name           = 'The Legendary Dungeon of ZARTA'
-      @description    = 'The testiest test dungeon that ever tested!'
-      @max_level      = 10
-      @level          = 1
-      @room_list      = YAML.load_file(__dir__ + '/rooms.yml')
-      @stairs_time    = 0
+      @name        = 'The Legendary Dungeon of ZARTA'
+      @description = 'The testiest test dungeon that ever tested!'
+      @max_level   = 10
+      @level       = 1
+      @room_list   = YAML.load_file(__dir__ + '/rooms.yml')
+      @weapon_list = YAML.load_file(__dir__ + '/weapons.yml')
+      @stairs_time = 0
+      @player      = Zarta::Player.new(self)
+      @room        = Zarta::Room.new(self)
+
+      @player.starting_weapon
     end
   end
 
@@ -101,7 +115,7 @@ module Zarta
 
     def populate_room
       @enemy = Zarta::Enemy.new if enemy_spawned
-      @weapon = Zarta::Weapon.new if weapon_spawned
+      @weapon = Zarta::Weapon.new(@dungeon) if weapon_spawned
       @stairs = true && @dungeon.stairs_time = 0 if stairs_spawned
     end
   end

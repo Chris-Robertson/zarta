@@ -114,7 +114,8 @@ module Zarta
       @enemy = @dungeon.room.enemy
       @enemy_c = @pastel.magenta.bold(@enemy.name)
       loop do
-        player_hit = @weapon.damage + rand(@level) + @level
+        base_weapon_damage = @weapon.damage + rand(@weapon.damage)
+        player_hit = base_weapon_damage + rand(@level) + @level
         player_hit_c = @pastel.bright_yellow.bold(player_hit)
         puts "You attack the #{@enemy_c}!"
         puts "You hit for #{player_hit_c} damage."

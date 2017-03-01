@@ -55,7 +55,8 @@ module Zarta
     end
 
     def set_health
-      current_health = @rarity + @level + @dungeon.level + @dungeon.player.level
+      base = @rarity + @level + @dungeon.level + @dungeon.player.level
+      current_health = rand(base..base * 3)
       max_health = current_health
       @health = [current_health, max_health]
     end

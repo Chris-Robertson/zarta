@@ -114,7 +114,7 @@ module Zarta
       @enemy = @dungeon.room.enemy
       @enemy_c = @pastel.magenta.bold(@enemy.name)
       loop do
-        player_hit = @weapon.damage + rand(@level..10) + @level
+        player_hit = @weapon.damage + rand(@level) + @level
         player_hit_c = @pastel.bright_yellow.bold(player_hit)
         puts "You attack the #{@enemy_c}!"
         puts "You hit for #{player_hit_c} damage."
@@ -127,7 +127,7 @@ module Zarta
         gets
 
         enemy_hit = (@enemy.weapon.damage +
-                     rand(@enemy.level..10) +
+                     rand(@enemy.level) +
                      @enemy.level
                     )
 
@@ -144,7 +144,6 @@ module Zarta
     end
 
     def take_damage(damage)
-      puts "damage: #{damage}"
       @health[0] -= damage
       death if @health[0] <= 0
     end
@@ -172,10 +171,22 @@ module Zarta
 
     def gain_xp(xp)
       @xp += xp
-      if @xp >= @level * 10
-        @level += 1
-        @xp = 0
-      end
+      return unless @xp >= @level * 10
+      @level += 1
+      @xp = 0
+      puts @pastel.bright_blue.bold('You gain a level!')
+      puts "You are now level #{@pastel.bright_blue.bold(@level)}."
+      health = health_increase
+      puts 'Your health is replenished!'
+      puts "You gain #{@pastel.bright_green.bold(health)} to max health."
+    end
+
+    def health_increase
+      base = (@level - 1) + @dungeon.level
+      increase = rand(base..base * 3)
+      @health[1] += increase
+      @health[0] = @health[1]
+      increase
     end
   end
 end

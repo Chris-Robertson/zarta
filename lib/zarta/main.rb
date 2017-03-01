@@ -110,7 +110,7 @@ module Zarta
     def display_health
       current_health = @player.health[0]
       max_health = @player.health[1]
-      hud_health = "HP: #{@player.health[0]}/#{@player.health[1]}"
+      hud_health = "HP: #{current_health}/#{max_health}"
 
       return @pastel.red(hud_health) if current_health < max_health / 2
       @pastel.green(hud_health)

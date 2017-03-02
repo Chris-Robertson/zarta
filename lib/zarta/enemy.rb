@@ -74,9 +74,9 @@ module Zarta
 
       @name = 'BOSS!'
       @description = 'The BOSS!'
-      @rarity = 20
+      @rarity = 12
 
-      @level = rand(@dungeon.player.level..(@dungeon.player.level * 2))
+      @level = rand(@dungeon.player.level..(@dungeon.player.level * 1.5))
       set_health
       pick_weapon
       true

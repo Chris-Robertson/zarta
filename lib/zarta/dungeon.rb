@@ -79,10 +79,10 @@ module Zarta
     def initialize(dungeon)
       @dungeon              = dungeon
       @description          = new_description
-      @enemy_chance         = 20 + (@dungeon.level + 5)
-      @weapon_chance        = 5 + (@dungeon.level + 5)
+      @enemy_chance         = 40 + (@dungeon.level + 5)
+      @weapon_chance        = 10 + (@dungeon.level + 5)
       @next_rooms           = [] # A list of room objects
-      @stairs_chance        = 0
+      @stairs_chance        = 10
       @dungeon.stairs_time += 1
       @stairs               = false
 

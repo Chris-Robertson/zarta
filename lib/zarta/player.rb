@@ -91,28 +91,30 @@ module Zarta
 
     def flee
       return unless @prompt.yes?('Try to flee?')
-      @flee_chance = 0
-      loop do
-        puts "You try to get away from the #{@current_enemy}"
-        gets
-        if @flee_chance + @dungeon.level + @level < rand(1..10)
-          puts 'You are successful!'
-          @dungeon.room.enemy = nil
-          gets
-          Zarta::HUD.new(@dungeon)
-          break
-        else
-          this_hit = @dungeon.room.enemy.weapon.damage
-          @health[0] -= this_hit
-          this_hit = @pastel.red.bold(this_hit)
-          puts "The #{@current_enemy} hits you as you try to flee!"
-          puts "You take #{this_hit} hits you as you try to flee!\n"
+      puts "You try to get away from the #{@current_enemy}"
+      gets
 
-          @flee_chance -= 1
+      flee_hit
+      @dungeon.room.enemy = nil
+      gets
+      Zarta::HUD.new(@dungeon)
+    end
 
-          gets
-          Zarta::HUD.new(@dungeon)
-        end
+    def flee_hit
+      @enemy = @dungeon.room.enemy
+      level_difference = @dungeon.room.enemy.level - @level
+      flee_chance = @dungeon.level + @level
+      if rand(flee_chance) >= flee_chance + level_difference
+        puts 'You are successful!'
+        @dungeon.room.enemy = nil
+        return
+      else
+        base = @enemy.weapon.damage + rand(@enemy.level) + @enemy.level
+        enemy_hit = base.round
+        enemy_hit_c = @pastel.red.bold(enemy_hit)
+        @health[0] -= enemy_hit
+        puts "The #{@current_enemy} hits you as you try to flee!"
+        puts "You take #{enemy_hit_c} hits you as you flee!\n"
       end
     end
 

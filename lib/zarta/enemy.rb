@@ -83,16 +83,17 @@ module Zarta
     end
 
     def inspect
+      Zarta::HUD.new(dungeon)
       @pastel = Pastel.new
       table_title = Terminal::Table.new
       table_title.title = @pastel.magenta.bold(@name)
-      table_title.style = { width: 50, padding_left: 1 }
+      table_title.style = { width: 40, padding_left: 1 }
       table_title.align_column(0, :center)
       table_title.add_row [@description]
       puts table_title
 
       table = Terminal::Table.new
-      table.style = { width: 50, padding_left: 1 }
+      table.style = { width: 40, padding_left: 1 }
       table.add_row ['Weapon:', @weapon.name]
       table.add_row ['Health:', "#{@health[0]}/#{@health[1]}"]
       puts table

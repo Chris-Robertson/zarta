@@ -122,6 +122,7 @@ module Zarta
       @enemy = @dungeon.room.enemy
       @enemy_c = @pastel.magenta.bold(@enemy.name)
       loop do
+        Zarta::HUD.new(@dungeon)
         base_weapon_damage = @weapon.damage + rand(@weapon.damage)
         player_hit = base_weapon_damage + rand(@level) + @level
         player_hit_c = @pastel.bright_yellow.bold(player_hit)
@@ -147,7 +148,6 @@ module Zarta
 
         gets
 
-        Zarta::HUD.new(@dungeon)
       end
     end
 
@@ -172,6 +172,7 @@ module Zarta
 
       gain_xp(xp_gain)
 
+      @dungeon.room.weapon = enemy.weapon
       @dungeon.room.enemy = nil
       gets
 

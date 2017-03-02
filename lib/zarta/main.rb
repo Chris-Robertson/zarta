@@ -30,20 +30,24 @@ module Zarta
 
     # Refreshes the game screen
     def refresh
+      Zarta::HUD.new(@dungeon)
+
       @player.handle_enemy if @dungeon.room.enemy.is_a?(Zarta::Enemy)
 
       @player.handle_weapon if @dungeon.room.weapon.is_a?(Zarta::Weapon)
 
-      if @dungeon.room.stairs
-        puts 'You see stairs leading down here.'
-        @dungeon.level += 1 if @prompt.yes?('Go down?')
-        @dungeon.room = Zarta::Room.new(@dungeon)
-        refresh
-      end
+      handle_stairs if @dungeon.room.stairs
 
       Zarta::HUD.new(@dungeon)
-
       @dungeon.room = next_rooms_prompt
+      refresh
+    end
+
+    def handle_stairs
+      puts 'You see stairs leading down here.'
+      return unless @prompt.yes?('Go down?')
+      @dungeon.level += 1
+      @dungeon.room = Zarta::Room.new(@dungeon)
       refresh
     end
 
@@ -56,9 +60,8 @@ module Zarta
         next_rooms_options << room.description
       end
 
-      next_room_choice = @prompt.select(
-        'You see these rooms ahead of you. Choose one:', next_rooms_options
-      )
+      puts 'You see these rooms ahead of you,'
+      next_room_choice = @prompt.select('Choose one:', next_rooms_options)
 
       @dungeon.room.next_rooms.each do |room|
         return room if next_room_choice == room.description

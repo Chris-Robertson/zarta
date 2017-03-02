@@ -41,19 +41,19 @@ module Zarta
     end
 
     def inspect_weapon
+      Zarta::HUD.new(dungeon)
       table_title = Terminal::Table.new
       table_title.title = @pastel.cyan.bold(@name)
-      table_title.style = { width: 50, padding_left: 1 }
+      table_title.style = { width: 40, padding_left: 1 }
       table_title.align_column(0, :center)
       table_title.add_row [@description]
       puts table_title
 
       table = Terminal::Table.new
-      table.style = { width: 50, padding_left: 1 }
+      table.style = { width: 40, padding_left: 1 }
       table.add_row ['Damage:', @damage]
       table.add_row ['Rarity:', @rarity]
       puts table
-      gets
     end
   end
 end

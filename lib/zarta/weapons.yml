@@ -196,23 +196,23 @@
   :rarity: 5
 - 
   :name: 'Ranseur'
-  :description: 'A spear-headed polearm with a crescent-shaped cross guard
-    resembling a trident.'
+  :description: "A spear-headed polearm with a\ncrescent-shaped cross guard
+    resembling a trident."
   :damage: 6
   :rarity: 7
 - 
   :name: 'Sovnya'
-  :description: 'A long polearm with a single-edged curved blade on the end.'
+  :description: "A long polearm with a\nsingle-edged curved blade on the end."
   :damage: 6
   :rarity: 6
 - 
   :name: 'Spetum'
-  :description: 'A spear-headed polearm with single-edged, curved cross-blades.'
+  :description: "A spear-headed polearm with\nsingle-edged, curved cross-blades."
   :damage: 5
   :rarity: 6
 - 
   :name: 'Swordstaff'
-  :description: 'A sword on the end of a staff. Who’d’ve thought it?'
+  :description: "A sword on the end of a staff.\nWho’d’ve thought it?"
   :damage: 5
   :rarity: 5
 - 
@@ -262,27 +262,27 @@
   :rarity: 1
 - 
   :name: 'Francisca'
-  :description: 'A throwing axe with an arch-shaped head.'
+  :description: "A throwing axe with an\narch-shaped head."
   :damage: 3
   :rarity: 3
 - 
   :name: 'Nzappa zap'
-  :description: 'A throwing axe with an ornate, wrought iron blade.'
+  :description: "A throwing axe with an ornate,\nwrought iron blade."
   :damage: 4
   :rarity: 4
 - 
   :name: 'Chakram'
-  :description: 'A circular throwing weapon with a sharp outer edge.'
+  :description: "A circular throwing weapon with\na sharp outer edge."
   :damage: 4
   :rarity: 4
 - 
   :name: 'Hand cannon'
-  :description: 'A rudimentary short-barrelled gunpowder projectile weapon'
+  :description: "A rudimentary short-barrelled\ngunpowder projectile weapon"
   :damage: 4
   :rarity: 5
 - 
   :name: 'Musket'
-  :description: 'A long-barrelled, muzzle-loaded gunpowder projectile weapon'
+  :description: "A long-barrelled, muzzle-loaded\ngunpowder projectile weapon"
   :damage: 7
   :rarity: 7
 - 

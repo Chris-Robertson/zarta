@@ -35,18 +35,23 @@ module Zarta
     attr_accessor :room
 
     def initialize
+      load_yaml_files
+
       @name        = 'The Legendary Dungeon of ZARTA'
       @description = 'The testiest test dungeon that ever tested!'
       @max_level   = 10
       @level       = 1
-      @room_list   = YAML.load_file(__dir__ + '/rooms.yml')
-      @weapon_list = YAML.load_file(__dir__ + '/weapons.yml')
-      @enemy_list  = YAML.load_file(__dir__ + '/enemy.yml')
       @stairs_time = 0
       @player      = Zarta::Player.new(self)
       @room        = Zarta::Room.new(self)
 
       @player.starting_weapon
+    end
+
+    def load_yaml_files
+      @room_list   = YAML.load_file(__dir__ + '/rooms.yml')
+      @weapon_list = YAML.load_file(__dir__ + '/weapons.yml')
+      @enemy_list  = YAML.load_file(__dir__ + '/enemy.yml')
     end
   end
 

@@ -75,13 +75,18 @@ module Zarta
       @current_enemy = @pastel.magenta.bold(@current_enemy)
       puts "There is a #{@current_enemy} in here!"
 
-      enemy_choice = @prompt.select('What do you want to do?') do |menu|
-        menu.choice 'Fight!'
-        menu.choice 'Flee!'
-      end
+      until @dungeon.room.enemy.nil?
+        # Zarta::HUD.new(dungeon)
+        enemy_choice = @prompt.select('What do you want to do?') do |menu|
+          menu.choice 'Fight!'
+          menu.choice 'Flee!'
+          menu.choice 'Look!'
+        end
 
-      fight if enemy_choice == 'Fight!'
-      flee if enemy_choice == 'Flee!'
+        fight if enemy_choice == 'Fight!'
+        flee if enemy_choice == 'Flee!'
+        @dungeon.room.enemy.inspect if enemy_choice == 'Look!'
+      end
     end
 
     def flee
@@ -92,11 +97,12 @@ module Zarta
         gets
         if @flee_chance + @dungeon.level + @level < rand(1..10)
           puts 'You are successful!'
+          @dungeon.room.enemy = nil
           gets
           Zarta::HUD.new(@dungeon)
           break
         else
-          this_hit = @dungeon.room.enemy.damage
+          this_hit = @dungeon.room.enemy.weapon.damage
           @health[0] -= this_hit
           this_hit = @pastel.red.bold(this_hit)
           puts "The #{@current_enemy} hits you as you try to flee!"
@@ -164,6 +170,7 @@ module Zarta
 
       gain_xp(xp_gain)
 
+      @dungeon.room.enemy = nil
       gets
 
       Zarta::HUD.new(@dungeon)
@@ -175,7 +182,7 @@ module Zarta
       @level += 1
       @xp = 0
       puts @pastel.bright_blue.bold('You gain a level!')
-      puts "You are now level #{@pastel.bright_blue.bold(@level)}."
+      puts "You are now level #{@pastel.bright_blue.bold(@level)}"
       health = health_increase
       puts 'Your health is replenished!'
       puts "You gain #{@pastel.bright_green.bold(health)} to max health."

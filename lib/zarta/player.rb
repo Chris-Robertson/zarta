@@ -71,13 +71,13 @@ module Zarta
     def handle_enemy
       @enemy = @dungeon.room.enemy
       @enemy_c = @pastel.magenta.bold(@enemy.name)
+      puts "There is a #{@enemy_c} in here!"
 
       # Loop until the enemy is dealt with.
       prompt_enemy until @enemy.dealt_with
     end
 
     def prompt_enemy
-      puts "There is a #{@enemy_c} in here!"
       enemy_choice = @prompt.select('What do you want to do?') do |menu|
         menu.choice 'Fight!'
         menu.choice 'Flee!'

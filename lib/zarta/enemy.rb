@@ -11,12 +11,12 @@ module Zarta
     # The enemy's current weapon
     attr_accessor :weapon
 
-    # Have you killed this guy yet? Probably not.
-    attr_accessor :dead
+    # Did you kill him? Or did you run away? You probably ran away...
+    attr_accessor :dealt_with
 
     def initialize(dungeon)
       @dungeon = dungeon
-      @dead = false
+      @dealt_with = false
       @player = @dungeon.player
 
       pick_enemy
@@ -34,7 +34,6 @@ module Zarta
         spawn_list << enemy if enemy[:rarity] < chance
       end
 
-      puts "SPAWN LIST\n#{spawn_list}\nEND SPAWN LIST"
       spawn = spawn_list[rand(0...spawn_list.length)]
 
       @name = spawn[:name]
@@ -44,7 +43,7 @@ module Zarta
 
     # I know, I know.
     def spawn_chance
-      rand(10)
+      rand(1..10)
     end
 
     def set_level
@@ -62,7 +61,7 @@ module Zarta
     def take_damage(damage)
       @health[0] -= damage
       return unless @health[0] <= 0
-      @dead = true
+      @dealt_with = true
     end
 
     def boss_spawn

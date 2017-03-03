@@ -37,6 +37,7 @@ module Zarta
       @room_weapon = @dungeon.room.weapon
       @room_weapon_c = @pastel.cyan.bold(@room_weapon.name)
       @weapon_handled = false
+      Zarta::HUD.new(@dungeon)
       puts "You see a #{@room_weapon_c} in this room."
 
       # Repeat until they pick it up or leave it
@@ -72,11 +73,10 @@ module Zarta
       @enemy_c = @pastel.magenta.bold(@enemy.name)
 
       # Loop until the enemy is dealt with.
-      prompt_enemy until @enemy.nil
+      prompt_enemy until @enemy.dealt_with
     end
 
     def prompt_enemy
-      Zarta::HUD.new(@dungeon)
       puts "There is a #{@enemy_c} in here!"
       enemy_choice = @prompt.select('What do you want to do?') do |menu|
         menu.choice 'Fight!'
@@ -92,11 +92,12 @@ module Zarta
     def fight
       Zarta::HUD.new(@dungeon)
       player_turn
-      enemy_killed && return if @enemy.dead
+      enemy_killed && return if @enemy.dealt_with
       @enemy.enemy_turn
     end
 
     def player_turn
+      Zarta::HUD.new(@dungeon)
       hit = player_damage
       @enemy.take_damage(hit)
       puts "You attack the #{@enemy_c}!"
@@ -116,7 +117,7 @@ module Zarta
       return unless @prompt.yes?('Are you sure?')
       puts "You try to get away from the #{@enemy_c}"
       flee_hit
-      @enemy = nil
+      @enemy.dealt_with = true
       gets
     end
 
@@ -125,7 +126,7 @@ module Zarta
       level_difference = (@enemy.level - @level) / 2
       flee_damage && return if rand(chance) <= rand(chance) + level_difference
       puts 'You are successful!'
-      @enemy = nil
+      @enemy.dealt_with = true
     end
 
     def flee_damage
@@ -155,7 +156,7 @@ module Zarta
       # The enemy drops its weapon when killed. This will overwrite any weapon
       # that may have spawned in the room.
       @dungeon.room.weapon = @enemy.weapon
-      @enemy = nil
+      @enemy.dealt_with = true
       @boss_is_dead = true if @enemy.name == 'BOSS!'
       gets
     end
@@ -164,6 +165,7 @@ module Zarta
       xp_gained = @enemy.level + @level + @dungeon.level
       @xp += xp_gained
       level_up if @xp >= @level * 10
+      xp_gained
     end
 
     def level_up

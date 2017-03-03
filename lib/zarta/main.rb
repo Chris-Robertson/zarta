@@ -12,9 +12,7 @@ module Zarta
 
     # Main game loop
     def play
-      loop do
-        Zarta::Screen.new(@dungeon)
-      end
+      Zarta::Screen.new(@dungeon)
     end
   end
 
@@ -37,16 +35,16 @@ module Zarta
     # class. I'm just creating HUD objects in any function where I need to
     # refresh it anyway. Feels redundant.
     def refresh
-      Zarta::HUD.new(@dungeon)
+      loop do
+        Zarta::HUD.new(@dungeon)
+        player_wins if @player.boss_is_dead
+        @player.handle_enemy if @dungeon.room.enemy.is_a?(Zarta::Enemy)
+        @player.handle_weapon if @dungeon.room.weapon.is_a?(Zarta::Weapon)
+        handle_stairs if @dungeon.room.stairs
 
-      players_wins if @player.boss_is_dead
-      @player.handle_enemy if @room.enemy.is_a?(Zarta::Enemy)
-      @player.handle_weapon if @room.weapon.is_a?(Zarta::Weapon)
-      handle_stairs if @room.stairs
-
-      Zarta::HUD.new(@dungeon)
-      @room = next_rooms_prompt
-      refresh
+        @dungeon.room = next_rooms_prompt
+        refresh
+      end
     end
 
     # Another function that could be handed off to the Room class. Like that
@@ -70,6 +68,7 @@ module Zarta
         next_rooms_options << room.description
       end
 
+      Zarta::HUD.new(@dungeon)
       puts 'You see these rooms ahead of you,'
       next_room_choice = @prompt.select('Choose one:', next_rooms_options)
 

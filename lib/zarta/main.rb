@@ -64,7 +64,7 @@ module Zarta
     # it will be ok...
     def next_rooms_prompt
       next_rooms_options = []
-      @dungeon.room.new_rooms(@dungeon)
+      @dungeon.room.new_rooms
       @dungeon.room.next_rooms.each do |room|
         next_rooms_options << room.description
       end

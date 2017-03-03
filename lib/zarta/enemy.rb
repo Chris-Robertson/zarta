@@ -62,7 +62,7 @@ module Zarta
       return unless @health[0] <= 0
       # The enemy drops its weapon when killed. This will overwrite any weapon
       # that may have spawned in the room.
-      @dungeon.room.weapon = @enemy.weapon
+      @dungeon.room.weapon = @weapon
       @dealt_with = true
     end
 

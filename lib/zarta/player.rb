@@ -152,7 +152,7 @@ module Zarta
       xp_gained = gain_xp
       puts "You have slain the #{@enemy_c}!"
       puts "You gain #{@pastel.bright_blue.bold(xp_gained)} Experience."
-
+      level_up if @xp >= @level * 10
       # The enemy drops its weapon when killed. This will overwrite any weapon
       # that may have spawned in the room.
       @dungeon.room.weapon = @enemy.weapon
@@ -164,7 +164,6 @@ module Zarta
     def gain_xp
       xp_gained = @enemy.level + @level + @dungeon.level
       @xp += xp_gained
-      level_up if @xp >= @level * 10
       xp_gained
     end
 

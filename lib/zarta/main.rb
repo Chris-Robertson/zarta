@@ -51,6 +51,7 @@ module Zarta
     # whale of a beast needs more methods. Maybe it would make more sense to
     # move some functionality into the Engine class.
     def handle_stairs
+      Zarta::HUD.new(@dungeon)
       puts 'You see stairs leading down here.'
       return unless @prompt.yes?('Go down?')
       @dungeon.level += 1

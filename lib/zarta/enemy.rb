@@ -31,7 +31,7 @@ module Zarta
       spawn_list = []
       chance = spawn_chance
       @dungeon.enemy_list.each do |enemy|
-        spawn_list << enemy if enemy[:rarity] < chance
+        spawn_list << enemy if enemy[:rarity] <= chance
       end
 
       spawn = spawn_list[rand(0...spawn_list.length)]
@@ -41,9 +41,8 @@ module Zarta
       @rarity = spawn[:rarity]
     end
 
-    # I know, I know.
     def spawn_chance
-      rand(1..10)
+      rand(1..(@player.level + @dungeon.level + 2))
     end
 
     def set_level
@@ -95,6 +94,7 @@ module Zarta
     end
 
     def inspect
+      Zarta::HUD.new(@dungeon)
       table_title
       table
       gets

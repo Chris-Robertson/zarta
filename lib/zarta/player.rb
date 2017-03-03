@@ -35,7 +35,7 @@ module Zarta
 
     def handle_weapon
       @room_weapon = @dungeon.room.weapon
-      @room_weapon_c = @pastel.cyan.bold(@weapon.name)
+      @room_weapon_c = @pastel.cyan.bold(@room_weapon.name)
       @weapon_handled = false
       puts "You see a #{@room_weapon_c} in this room."
 

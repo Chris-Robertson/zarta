@@ -34,7 +34,7 @@ module Zarta
         spawn_list << enemy if enemy[:rarity] < chance
       end
 
-      puts spawn_list
+      puts "SPAWN LIST\n#{spawn_list}\nEND SPAWN LIST"
       spawn = spawn_list[rand(0...spawn_list.length)]
 
       @name = spawn[:name]

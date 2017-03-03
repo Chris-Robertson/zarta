@@ -72,7 +72,7 @@ module Zarta
       @enemy_c = @pastel.magenta.bold(@enemy.name)
 
       # Loop until the enemy is dealt with.
-      prompt_enemy until @enemy.nil?
+      prompt_enemy until @enemy.nil
     end
 
     def prompt_enemy

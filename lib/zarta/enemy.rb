@@ -60,6 +60,9 @@ module Zarta
     def take_damage(damage)
       @health[0] -= damage
       return unless @health[0] <= 0
+      # The enemy drops its weapon when killed. This will overwrite any weapon
+      # that may have spawned in the room.
+      @dungeon.room.weapon = @enemy.weapon
       @dealt_with = true
     end
 

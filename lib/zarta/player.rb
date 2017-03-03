@@ -153,9 +153,6 @@ module Zarta
       puts "You have slain the #{@enemy_c}!"
       puts "You gain #{@pastel.bright_blue.bold(xp_gained)} Experience."
       level_up if @xp >= @level * 10
-      # The enemy drops its weapon when killed. This will overwrite any weapon
-      # that may have spawned in the room.
-      @dungeon.room.weapon = @enemy.weapon
       @enemy.dealt_with = true
       @boss_is_dead = true if @enemy.name == 'BOSS!'
       gets

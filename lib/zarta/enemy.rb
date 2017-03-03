@@ -99,14 +99,20 @@ module Zarta
     def inspect
       Zarta::HUD.new(@dungeon)
 <<<<<<< HEAD
+<<<<<<< HEAD
       @pastel = Pastel.new
 =======
+=======
+>>>>>>> major-refactor
       table_title
       table
       gets
     end
 
     def table_title
+<<<<<<< HEAD
+>>>>>>> major-refactor
+=======
 >>>>>>> major-refactor
       table_title = Terminal::Table.new
       table_title.title = @pastel.magenta.bold(@name)

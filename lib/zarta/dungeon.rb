@@ -103,7 +103,10 @@ module Zarta
 
     # I can't call this in the initiazation or else it will endlessly spawn
     # rooms and break everything.
+<<<<<<< HEAD
     def new_rooms
+=======
+>>>>>>> major-refactor
       min_rooms = 2
       max_rooms = 4
       rand(min_rooms..max_rooms).times do
@@ -128,7 +131,10 @@ module Zarta
       return false if @dungeon.level == @dungeon.max_level
       stairs_chance = 10
       @dungeon.stairs_time += 1
-      @stairs_chance + @dungeon.stairs_time > rand(100) ? true : false
+<<<<<<< HEAD
+=======
+      stairs_chance + @dungeon.stairs_time > rand(100) ? true : false
+>>>>>>> major-refactor
     end
   end
 end

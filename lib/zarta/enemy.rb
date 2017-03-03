@@ -83,7 +83,7 @@ module Zarta
     end
 
     def inspect
-      Zarta::HUD.new(dungeon)
+      Zarta::HUD.new(@dungeon)
       @pastel = Pastel.new
       table_title = Terminal::Table.new
       table_title.title = @pastel.magenta.bold(@name)

@@ -1,6 +1,6 @@
 # The catch-all module for Zarta
 module Zarta
-  # The player character
+  # The Bloated Beast. The Mother of Methods. The Function Fornicator.
   class Player
     # The player's name
     attr_accessor :name
@@ -18,137 +18,121 @@ module Zarta
     # The player's current weapon
     attr_accessor :weapon
 
+    # Have you killed the boss? I would be surprised if you had. I haven't.
+    attr_accessor :boss_is_dead
+
     def initialize(dungeon)
       @name    = 'Testy McTestface'
       @health  = [100, 100]
       @level   = 1
       @xp      = 0
-      @weapon  = []
       @dungeon = dungeon
+      @weapon  = Zarta::Weapon.new(@dungeon)
       @prompt  = TTY::Prompt.new
       @pastel  = Pastel.new
-    end
-
-    def starting_weapon
-      @weapon = Zarta::Weapon.new(@dungeon)
+      @boss_is_dead = false
     end
 
     def handle_weapon
-      # I'm not making weapon  an instance variable as it may be
-      # different every time this method is called
-      weapon = @dungeon.room.weapon.name
-      weapon = @pastel.cyan.bold(weapon)
-      puts "You see a #{weapon} just laying around."
+      @room_weapon = @dungeon.room.weapon
+      @room_weapon_c = @pastel.cyan.bold(@weapon.name)
+      @weapon_handled = false
+      puts "You see a #{@room_weapon_c} in this room."
 
       # Repeat until they pick it up or leave it
-      loop do
-        weapon = @dungeon.room.weapon
-        weapon_choice = weapon_prompt
-
-        if weapon_choice == 'Pick it up'
-          break if pickup_weapon(weapon)
-        end
-
-        weapon.inspect_weapon if weapon_choice == 'Look at it'
-
-        return if weapon_choice == 'Leave it' && @prompt.yes?('Are you sure?')
-      end
+      prompt_weapon until @weapon_handled
     end
 
-    def weapon_prompt
-      @prompt.select('What do you want to do?') do |menu|
+    def prompt_weapon
+      weapon_choice = @prompt.select('What do you want to do?') do |menu|
         menu.choice 'Pick it up'
         menu.choice 'Look at it'
         menu.choice 'Leave it'
       end
+      pickup_weapon if weapon_choice == 'Pick it up'
+      @room_weapon.inspect_weapon if weapon_choice == 'Look at it'
+      leave_weapon if weapon_choice == 'Leave it'
     end
 
-    def pickup_weapon(weapon)
+    def pickup_weapon
       puts 'Your current weapon will be replaced.'
-      @weapon = weapon if @prompt.yes?('Are you sure?')
-
+      return unless @prompt.yes?('Are you sure?')
+      @weapon = @room_weapon
+      @weapon_handled = true
       Zarta::HUD.new(@dungeon)
+    end
+
+    def leave_weapon
+      return unless @prompt.yes?('Are you sure?')
+      @weapon_handled = true
     end
 
     def handle_enemy
-      @current_enemy = @dungeon.room.enemy.name
-      @current_enemy = @pastel.magenta.bold(@current_enemy)
-      puts "There is a #{@current_enemy} in here!"
-
-      until @dungeon.room.enemy.nil?
-        # Zarta::HUD.new(dungeon)
-        enemy_choice = @prompt.select('What do you want to do?') do |menu|
-          menu.choice 'Fight!'
-          menu.choice 'Flee!'
-          menu.choice 'Look!'
-        end
-
-        fight if enemy_choice == 'Fight!'
-        flee if enemy_choice == 'Flee!'
-        @dungeon.room.enemy.inspect if enemy_choice == 'Look!'
-      end
-    end
-
-    def flee
-      return unless @prompt.yes?('Try to flee?')
-      puts "You try to get away from the #{@current_enemy}"
-      gets
-
-      flee_hit
-      @dungeon.room.enemy = nil
-      gets
-      Zarta::HUD.new(@dungeon)
-    end
-
-    def flee_hit
       @enemy = @dungeon.room.enemy
-      level_difference = @dungeon.room.enemy.level - @level
-      flee_chance = @dungeon.level + @level
-      if rand(flee_chance) >= flee_chance + level_difference
-        puts 'You are successful!'
-        @dungeon.room.enemy = nil
-        return
-      else
-        base = @enemy.weapon.damage + rand(@enemy.level) + @enemy.level
-        enemy_hit = base.round
-        enemy_hit_c = @pastel.red.bold(enemy_hit)
-        @health[0] -= enemy_hit
-        puts "The #{@current_enemy} hits you as you try to flee!"
-        puts "You take #{enemy_hit_c} hits you as you flee!\n"
+      @enemy_c = @pastel.magenta.bold(@enemy.name)
+
+      # Loop until the enemy is dealt with.
+      prompt_enemy until @enemy.nil?
+    end
+
+    def prompt_enemy
+      Zarta::HUD.new(@dungeon)
+      puts "There is a #{@enemy_c} in here!"
+      enemy_choice = @prompt.select('What do you want to do?') do |menu|
+        menu.choice 'Fight!'
+        menu.choice 'Flee!'
+        menu.choice 'Look!'
       end
+
+      fight if enemy_choice == 'Fight!'
+      flee if enemy_choice == 'Flee!'
+      @enemy.inspect if enemy_choice == 'Look!'
     end
 
     def fight
-      @enemy = @dungeon.room.enemy
-      @enemy_c = @pastel.magenta.bold(@enemy.name)
-      loop do
-        Zarta::HUD.new(@dungeon)
-        base_weapon_damage = @weapon.damage + rand(@weapon.damage)
-        player_hit = base_weapon_damage + rand(@level) + @level
-        player_hit_c = @pastel.bright_yellow.bold(player_hit)
-        puts "You attack the #{@enemy_c}!"
-        puts "You hit for #{player_hit_c} damage."
+      Zarta::HUD.new(@dungeon)
+      player_turn
+      enemy_killed && return if @enemy.dead
+      @enemy.enemy_turn
+    end
 
-        if @enemy.take_damage(player_hit)
-          enemy_killed(@enemy, @enemy_c)
-          break
-        end
+    def player_turn
+      hit = player_damage
+      @enemy.take_damage(hit)
+      puts "You attack the #{@enemy_c}!"
+      puts "You hit for #{@pastel.bright_yellow.bold(hit)} damage."
+      gets
+    end
 
-        gets
+    # Another Turing-level algorithm for determining how hard the player hits.
+    # It would be cool to generate critical hits in here.
+    def player_damage
+      base_damage = @weapon.damage + rand(@weapon.damage)
+      hit = base_damage + rand(@level) + @level
+      hit.round
+    end
 
-        base = @enemy.weapon.damage + rand(@enemy.level) + @enemy.level
+    def flee
+      return unless @prompt.yes?('Are you sure?')
+      puts "You try to get away from the #{@enemy_c}"
+      flee_hit
+      @enemy = nil
+      gets
+    end
 
-        enemy_hit = base.round
+    def flee_hit
+      chance = @dungeon.level + @level
+      level_difference = (@enemy.level - @level) / 2
+      flee_damage && return if rand(chance) <= rand(chance) + level_difference
+      puts 'You are successful!'
+      @enemy = nil
+    end
 
-        enemy_hit_c = @pastel.red.bold(enemy_hit)
-        puts "The #{@enemy_c} hits you!"
-        puts "You take #{enemy_hit_c} damage."
-
-        take_damage(enemy_hit)
-
-        gets
-
-      end
+    def flee_damage
+      enemy_hit = @enemy.enemy_damage
+      take_damage(enemy_hit)
+      puts "The #{@enemy_c} hits you as you try to flee!"
+      puts "You take #{@pastel.red.bold(enemy_hit)} hits you as you flee!"
     end
 
     def take_damage(damage)
@@ -158,45 +142,45 @@ module Zarta
 
     def death
       puts 'You have been killed!'
-      puts "\n#{@pastel.bright_red.bold('GAME OVER')}"
+      puts @pastel.bright_red.bold('GAME OVER')
       gets
       exit[0]
     end
 
-    def enemy_killed(enemy, enemy_c)
-      xp_gain = enemy.level + @level + @dungeon.level
-      xp_gain_c = @pastel.bright_white.bold(xp_gain)
-      puts "You have slain the #{enemy_c}!"
-      puts "You are victorious!\n"
-      puts "You gain #{xp_gain_c} Experience."
+    def enemy_killed
+      xp_gained = gain_xp
+      puts "You have slain the #{@enemy_c}!"
+      puts "You gain #{@pastel.bright_blue.bold(xp_gained)} Experience."
 
-      gain_xp(xp_gain)
-
-      @dungeon.room.weapon = enemy.weapon
-      @dungeon.room.enemy = nil
+      # The enemy drops its weapon when killed. This will overwrite any weapon
+      # that may have spawned in the room.
+      @dungeon.room.weapon = @enemy.weapon
+      @enemy = nil
+      @boss_is_dead = true if @enemy.name == 'BOSS!'
       gets
-
-      Zarta::HUD.new(@dungeon)
     end
 
-    def gain_xp(xp)
-      @xp += xp
-      return unless @xp >= @level * 10
+    def gain_xp
+      xp_gained = @enemy.level + @level + @dungeon.level
+      @xp += xp_gained
+      level_up if @xp >= @level * 10
+    end
+
+    def level_up
       @level += 1
       @xp = 0
       puts @pastel.bright_blue.bold('You gain a level!')
       puts "You are now level #{@pastel.bright_blue.bold(@level)}"
-      health = health_increase
-      puts 'Your health is replenished!'
-      puts "You gain #{@pastel.bright_green.bold(health)} to max health."
+      health_increase
     end
 
     def health_increase
-      base = (@level - 1) + @dungeon.level
-      increase = rand(base..base * 3)
+      base_increase = (@level - 1) + @dungeon.level
+      increase = rand(base_increase..base_increase * 3)
       @health[1] += increase
       @health[0] = @health[1]
-      increase
+      puts 'Your health is replenished!'
+      puts "You gain #{@pastel.bright_green.bold(increase)} to max health."
     end
   end
 end

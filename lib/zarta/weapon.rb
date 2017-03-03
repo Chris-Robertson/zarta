@@ -37,18 +37,25 @@ module Zarta
     end
 
     def chance
-      (@player.level + @dungeon.level) / 2
+      rand((@dungeon.level - 2)...(@dungeon.level + 2))
     end
 
     def inspect_weapon
-      Zarta::HUD.new(dungeon)
+      title_table
+      table
+      gets
+    end
+
+    def title_table
       table_title = Terminal::Table.new
       table_title.title = @pastel.cyan.bold(@name)
       table_title.style = { width: 40, padding_left: 1 }
       table_title.align_column(0, :center)
       table_title.add_row [@description]
       puts table_title
+    end
 
+    def table
       table = Terminal::Table.new
       table.style = { width: 40, padding_left: 1 }
       table.add_row ['Damage:', @damage]

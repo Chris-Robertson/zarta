@@ -2,7 +2,9 @@ require 'yaml'
 
 # The catch-all module for Zarta
 module Zarta
-  # Keeps track of the dungeon
+  # Keeps track of the dungeon. Mostly, this guy is used for passing all the
+  # other objects to each other and keeping track of a few things because I'm
+  # not allowed to use class variables for some reason...
   class Dungeon
     # The name of the dungeon
     attr_accessor :name
@@ -44,10 +46,10 @@ module Zarta
       @stairs_time = 0
       @player      = Zarta::Player.new(self)
       @room        = Zarta::Room.new(self)
-
-      @player.starting_weapon
     end
 
+    # Moved him out for clarity and ease of editing. I know enemy isn't plural.
+    # It bugs me as well. It's on my list.
     def load_yaml_files
       @room_list   = YAML.load_file(__dir__ + '/rooms.yml')
       @weapon_list = YAML.load_file(__dir__ + '/weapons.yml')
@@ -55,77 +57,77 @@ module Zarta
     end
   end
 
-  # Returns a random room adjective
+  # Where all the magic happens. Not really. Magic hasn't been implemented.
   class Room
-    # The dungeon that the room is in
+    # The dungeon. The main guy. The big cheese.
     attr_accessor :dungeon
 
     # The description of the room
     attr_accessor :description
 
-    # Base chance of an enemy spawning
-    attr_accessor :enemy_chance
-
-    # Base chance of an weapon spawning
-    attr_accessor :weapon_chance
-
-    # A list of room objects
+    # A list of rooms that are 'connected' to this one
     attr_accessor :next_rooms
 
-    # Any enemy that has spawned in this room
+    # If an enemy spawned in this room, he'll be in here
     attr_accessor :enemy
 
-    # Any weapon that has spawned in this room
+    # See above. Except this one is for weapons. If that wasn't clear.
     attr_accessor :weapon
 
-    # Any stairs that have spawned in this room
+    # Stairs, yes or no?
     attr_accessor :stairs
 
     def initialize(dungeon)
       @dungeon              = dungeon
       @description          = new_description
-      @enemy_chance         = 40 + (@dungeon.level + 5)
-      @weapon_chance        = 10 + (@dungeon.level + 5)
-      @next_rooms           = [] # A list of room objects
-      @stairs_chance        = 10
+      @next_rooms           = [] # A list of room objects. Well, it will be.
       @dungeon.stairs_time += 1
       @stairs               = false
 
       populate_room
     end
 
+    # Buys itself something pretty. As long as its a random word from a yaml
+    # file.
+    def new_description
+      @dungeon.room_list[rand(0...@dungeon.room_list.length)]
+    end
+
+    # If anything exciting is going to happen in this room, it starts in here.
+    def populate_room
+      @enemy  = Zarta::Enemy.new(@dungeon) if enemy_spawned
+      @weapon = Zarta::Weapon.new(@dungeon) if weapon_spawned
+      @stairs = stairs_spawned
+    end
+
+    # I can't call this in the initiazation or else it will endlessly spawn
+    # rooms and break everything.
     def new_rooms(dungeon)
       min_rooms = 2
-      max_rooms = 5
+      max_rooms = 4
       rand(min_rooms..max_rooms).times do
         @next_rooms << Zarta::Room.new(dungeon)
       end
     end
 
-    # Check if an enemy spawned
+    # These next three functions handle the amazingly complex algorithm that
+    # determines if objects spawn in this room. I will, at some stage, move
+    # these hard-coded numbers out into constants. One day.
     def enemy_spawned
-      @enemy_chance > rand(100)
+      @enemy_chance = 40 + (@dungeon.level + 5)
+      @enemy_chance < rand(100) ? true : false
     end
 
-    # Check if a weapon spawned
     def weapon_spawned
-      @weapon_chance > rand(100)
+      @weapon_chance = 10 + (@dungeon.level + 5)
+      @weapon_chance < rand(100) ? true : false
     end
 
-    # Check if stairs spawned
     def stairs_spawned
-      return if @dungeon.level == @dungeon.max_level
-      @stairs_chance + @dungeon.stairs_time > rand(100)
-    end
-
-    def new_description
-      @dungeon.room_list[rand(0...@dungeon.room_list.length)]
-    end
-
-    def populate_room
-      @enemy = Zarta::Enemy.new(@dungeon) if enemy_spawned
-      @weapon = Zarta::Weapon.new(@dungeon) if weapon_spawned
-      @stairs = true && @dungeon.stairs_time = 0 if stairs_spawned
+      return false if @dungeon.level == @dungeon.max_level
+      @stairs_chance = 10
+      @dungeon.stairs_time += 1
+      @stairs_chance + @dungeon.stairs_time > rand(100) ? true : false
     end
   end
 end

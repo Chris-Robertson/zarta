@@ -196,13 +196,16 @@
   :rarity: 5
 - 
   :name: 'Ranseur'
-  :description: "A spear-headed polearm with a\ncrescent-shaped cross guard
-    resembling a trident."
+  :description: "A spear-headed polearm with a\n
+                 crescent-shaped cross guard\n
+                 resembling a trident."
   :damage: 6
   :rarity: 7
 - 
   :name: 'Sovnya'
-  :description: "A long polearm with a\nsingle-edged curved blade on the end."
+  :description: "A long polearm with a\n
+                 single-edged curved blade on\n
+                 the end."
   :damage: 6
   :rarity: 6
 - 

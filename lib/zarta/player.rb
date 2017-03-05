@@ -18,9 +18,6 @@ module Zarta
     # The player's current weapon
     attr_accessor :weapon
 
-    # Have you killed the boss? I would be surprised if you had. I haven't.
-    attr_accessor :boss_is_dead
-
     def initialize(dungeon)
       @name    = 'Testy McTestface'
       @health  = [100, 100]
@@ -30,7 +27,6 @@ module Zarta
       @weapon  = Zarta::Weapon.new(@dungeon)
       @prompt  = TTY::Prompt.new
       @pastel  = Pastel.new
-      @boss_is_dead = false
     end
 
     def handle_weapon
@@ -155,8 +151,15 @@ module Zarta
       puts "You gain #{@pastel.bright_blue.bold(xp_gained)} Experience."
       level_up if @xp >= @level * NEXT_LEVEL_XP
       @enemy.dealt_with = true
-      @boss_is_dead = true if @enemy.name == 'BOSS!'
+      player_wins if @enemy.name == 'BOSS!'
       gets
+    end
+
+    # I've never made this method call, so I'll just assume that it works...
+    def player_wins
+      puts 'Congrats, you won the game!'
+      gets
+      exit[0]
     end
 
     def gain_xp

@@ -16,7 +16,7 @@ MOB_MAX_HEALTH_MOD = 2
 NEXT_LEVEL_XP = 10
 SPAWN_CHANCE_MOD = 1.2
 STAIRS_CHANCE = 5
-WEAPON_CHANCE_BASE = 10
+WEAPON_CHANCE_BASE = 5
 WEAPON_CHANCE_MOD = 5
 WEAPON_MAX_MOD = 0
 WEAPON_MIN_MOD = 0
@@ -101,7 +101,6 @@ module Zarta
     def refresh
       loop do
         Zarta::HUD.new(@dungeon)
-        player_wins if @player.boss_is_dead
         @player.handle_enemy if @dungeon.room.enemy.is_a?(Zarta::Enemy)
         @player.handle_weapon if @dungeon.room.weapon.is_a?(Zarta::Weapon)
         handle_stairs if @dungeon.room.stairs
@@ -139,13 +138,6 @@ module Zarta
       @dungeon.room.next_rooms.each do |room|
         return room if next_room_choice == room.description
       end
-    end
-
-    # I've never made this method call, so I'll just assume that it works...
-    def player_wins
-      puts 'Congrats, you won the game!'
-      gets
-      exit[0]
     end
   end
 

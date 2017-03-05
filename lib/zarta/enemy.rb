@@ -47,12 +47,13 @@ module Zarta
 
     def set_level
       plevel = @dungeon.player.level
-      @level = rand((plevel - MOB_LEVEL_MIN_MOD)..(plevel + MOB_LEVEL_MAX_MOD))
+      @level = rand((plevel - ENEMY_LEVEL_MIN_MOD)..
+                    (plevel + ENEMY_LEVEL_MAX_MOD))
     end
 
     def set_health
       base = @rarity + @level + @dungeon.level + @dungeon.player.level
-      current_health = rand(base..base * MOB_MAX_HEALTH_MOD)
+      current_health = rand(base..base * ENEMY_MAX_HEALTH_MOD)
       max_health = current_health
       [current_health, max_health]
     end
@@ -72,7 +73,7 @@ module Zarta
 
       @name = 'BOSS!'
       @description = 'The BOSS!'
-      @rarity = BOSS_RARITY
+      @rarity = @dungeon.level + BOSS_RARITY
 
       set_level
       set_health

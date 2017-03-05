@@ -101,7 +101,7 @@ module Zarta
       @stairs = stairs_spawned
     end
 
-    # I can't call this in the initiazation or else it will endlessly spawn
+    # I can't call this in the initialization or else it will endlessly spawn
     # rooms and break everything.
     def new_rooms
       min_rooms = MIN_NEXT_ROOMS
@@ -112,8 +112,7 @@ module Zarta
     end
 
     # These next three functions handle the amazingly complex algorithm that
-    # determines if objects spawn in this room. I will, at some stage, move
-    # these hard-coded numbers out into constants. One day.
+    # determines if objects spawn in this room.
     def enemy_spawned
       enemy_chance = ENEMY_CHANCE_BASE + (@dungeon.level + ENEMY_CHANCE_MOD)
       enemy_chance > rand(100)

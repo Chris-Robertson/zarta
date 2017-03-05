@@ -42,7 +42,7 @@ module Zarta
     end
 
     def spawn_chance
-      rand(1..((@player.level + @dungeon.level) * SPAWN_CHANCE_MOD))
+      rand(1..(@player.level + SPAWN_CHANCE_MOD))
     end
 
     def set_level

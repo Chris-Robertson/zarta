@@ -36,24 +36,37 @@ module Zarta
     # The current room
     attr_accessor :room
 
+    # The game's score
+    attr_accessor :score
+
+    # The highest scoring player
+    attr_accessor :high_score_player
+
+    # The game's high score
+    attr_accessor :high_score
+
     def initialize
       load_yaml_files
 
-      @name        = 'The Legendary Dungeon of ZARTA'
-      @description = 'The testiest test dungeon that ever tested!'
-      @max_level   = 10
-      @level       = 1
-      @stairs_time = 0
-      @player      = Zarta::Player.new(self)
-      @room        = Zarta::Room.new(self)
+      @name               = 'The Legendary Dungeon of ZARTA'
+      @description        = 'The testiest test dungeon that ever tested!'
+      @max_level          = 10
+      @level              = 1
+      @stairs_time        = 0
+      @player             = Zarta::Player.new(self)
+      @room               = Zarta::Room.new(self)
+      @score              = 0
+      @high_score_player  = @high_score_list[:player_name]
+      @high_score         = @high_score_list[:high_score]
     end
 
     # Moved him out for clarity and ease of editing. I know enemy isn't plural.
     # It bugs me as well. It's on my list.
     def load_yaml_files
-      @room_list   = YAML.load_file(__dir__ + '/rooms.yml')
-      @weapon_list = YAML.load_file(__dir__ + '/weapons.yml')
-      @enemy_list  = YAML.load_file(__dir__ + '/enemy.yml')
+      @room_list        = YAML.load_file(__dir__ + '/rooms.yml')
+      @weapon_list      = YAML.load_file(__dir__ + '/weapons.yml')
+      @enemy_list       = YAML.load_file(__dir__ + '/enemy.yml')
+      @high_score_list  = YAML.load_file(__dir__ + '/high_score.yml')
     end
   end
 

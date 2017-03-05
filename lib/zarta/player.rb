@@ -19,7 +19,7 @@ module Zarta
     attr_accessor :weapon
 
     def initialize(dungeon)
-      @name    = 'Testy McTestface'
+      @name    = ''
       @health  = [100, 100]
       @level   = 1
       @xp      = 0
@@ -163,9 +163,20 @@ module Zarta
     end
 
     def gain_xp
-      xp_gained = @enemy.level + @level + @dungeon.level
+      xp_gained = @enemy.level + @dungeon.level
       @xp += xp_gained
+      score(xp_gained)
       xp_gained
+    end
+
+    def score(xp)
+      @dungeon.score += xp
+      return unless @dungeon.score > @dungeon.high_score
+      puts 'New High Score!'
+      new_high_score = { player_name: @name, high_score: @dungeon.score }
+      File.open(__dir__ + '/high_score.yml', 'r+') do |file|
+        file.write(new_high_score.to_yaml)
+      end
     end
 
     def level_up

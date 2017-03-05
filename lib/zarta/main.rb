@@ -172,6 +172,7 @@ module Zarta
       t << [@player.name, "LVL: #{@player.level}"]
       t << [display_health, display_xp]
       t << [display_weapon, display_dungeon_level]
+      t << [current_score, high_score]
     end
 
     def display_health
@@ -193,6 +194,14 @@ module Zarta
 
     def display_dungeon_level
       "Dungeon Level:  #{@dungeon.level}/#{@dungeon.max_level}"
+    end
+
+    def current_score
+      "Current Score: #{@dungeon.score}"
+    end
+
+    def high_score
+      "High Score: #{@dungeon.high_score_player} - #{@dungeon.high_score}"
     end
 
     # Pretty straightforward but I have plans for the room description

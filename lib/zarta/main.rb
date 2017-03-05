@@ -1,6 +1,7 @@
 require 'tty'
 require 'terminal-table'
 require 'pastel'
+require 'artii'
 
 BOSS_RARITY = 12
 ENEMY_CHANCE_BASE = 30
@@ -30,7 +31,52 @@ module Zarta
 
     # Main game loop
     def play
+      Zarta::StartScreen.new(@dungeon)
+    end
+  end
+
+  class StartScreen
+    def initialize(dungeon)
+      @dungeon = dungeon
+      @prompt = TTY::Prompt.new
+      @pastel = Pastel.new
+      show_splash
+    end
+
+    def show_splash
+      loop do
+        system 'clear'
+        a = Artii::Base.new font: 'isometric3'
+        title = a.asciify('Zarta')
+        puts @pastel.red.bold(title)
+        splash_option = @prompt.select('') do |menu|
+          menu.choice 'New Game'
+          menu.choice 'Load Game'
+          menu.choice 'Leaderboards'
+          menu.choice 'Quit'
+        end
+
+        new_game if splash_option == 'New Game'
+        load_game if splash_option == 'Load Game'
+        leaderboard if splash_option == 'Leaderboards'
+        exit[0] if splash_option == 'Quit' && @prompt.yes?('Are you sure?')
+      end
+    end
+
+    def new_game
+      player_name = @prompt.ask("What's your name, adventurer?", required: true)
+      @dungeon.player.name = player_name
       Zarta::Screen.new(@dungeon)
+    end
+
+    def load_game
+      puts 'Load Game not implemented yet...'
+      gets
+    end
+
+    def leaderboard
+      puts 'Leaderboard not implemented yet...'
+      gets
     end
   end
 

@@ -76,7 +76,7 @@ module Zarta
 
       set_level
       set_health
-      pick_weapon
+      @weapon = Zarta::Weapon.new(@dungeon)
       true
     end
 

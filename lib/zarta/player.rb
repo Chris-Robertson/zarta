@@ -166,8 +166,8 @@ module Zarta
     end
 
     def level_up
+      @xp -= @level * NEXT_LEVEL_XP
       @level += 1
-      @xp = 0
       puts @pastel.bright_blue.bold('You gain a level!')
       puts "You are now level #{@pastel.bright_blue.bold(@level)}"
       health_increase

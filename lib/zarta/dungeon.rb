@@ -104,8 +104,8 @@ module Zarta
     # I can't call this in the initiazation or else it will endlessly spawn
     # rooms and break everything.
     def new_rooms
-      min_rooms = 2
-      max_rooms = 4
+      min_rooms = MIN_NEXT_ROOMS
+      max_rooms = MAX_NEXT_ROOMS
       rand(min_rooms..max_rooms).times do
         @next_rooms << Zarta::Room.new(@dungeon)
       end
@@ -115,20 +115,21 @@ module Zarta
     # determines if objects spawn in this room. I will, at some stage, move
     # these hard-coded numbers out into constants. One day.
     def enemy_spawned
-      enemy_chance = 40 + (@dungeon.level + 5)
-      enemy_chance < rand(100) ? true : false
+      enemy_chance = ENEMY_CHANCE_BASE + (@dungeon.level + ENEMY_CHANCE_MOD)
+      enemy_chance > rand(100)
     end
 
     def weapon_spawned
-      weapon_chance = 10 + (@dungeon.level + 5)
-      weapon_chance < rand(100) ? true : false
+      weapon_chance = WEAPON_CHANCE_BASE + (@dungeon.level + WEAPON_CHANCE_MOD)
+      weapon_chance > rand(100)
     end
 
     def stairs_spawned
       return false if @dungeon.level == @dungeon.max_level
-      stairs_chance = 10
       @dungeon.stairs_time += 1
-      stairs_chance + @dungeon.stairs_time > rand(100) ? true : false
+      return false unless STAIRS_CHANCE + @dungeon.stairs_time > rand(100)
+      @dungeon.stairs_time = 0
+      true
     end
   end
 end

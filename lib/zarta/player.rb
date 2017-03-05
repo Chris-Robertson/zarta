@@ -122,9 +122,10 @@ module Zarta
     end
 
     def flee_hit
-      chance = @dungeon.level + @level
-      level_difference = (@enemy.level - @level) / 2
-      flee_damage && return if rand(chance) <= rand(chance) + level_difference
+      base = @dungeon.level + @level
+      level_difference = @enemy.level - @level
+      flee_chance = (rand(base) + level_difference) * FLEE_CHANCE
+      flee_damage && return if rand(base) <= flee_chance
       puts 'You are successful!'
       @enemy.dealt_with = true
     end
@@ -152,7 +153,7 @@ module Zarta
       xp_gained = gain_xp
       puts "You have slain the #{@enemy_c}!"
       puts "You gain #{@pastel.bright_blue.bold(xp_gained)} Experience."
-      level_up if @xp >= @level * 10
+      level_up if @xp >= @level * NEXT_LEVEL_XP
       @enemy.dealt_with = true
       @boss_is_dead = true if @enemy.name == 'BOSS!'
       gets
@@ -174,7 +175,7 @@ module Zarta
 
     def health_increase
       base_increase = (@level - 1) + @dungeon.level
-      increase = rand(base_increase..base_increase * 3)
+      increase = rand(base_increase..base_increase * HEALTH_INCREASE)
       @health[1] += increase
       @health[0] = @health[1]
       puts 'Your health is replenished!'

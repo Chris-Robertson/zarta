@@ -2,6 +2,24 @@ require 'tty'
 require 'terminal-table'
 require 'pastel'
 
+BOSS_RARITY = 12
+ENEMY_CHANCE_BASE = 30
+ENEMY_CHANCE_MOD = 5
+FLEE_CHANCE = 0.5
+HEALTH_INCREASE = 3
+MAX_NEXT_ROOMS = 4
+MIN_NEXT_ROOMS = 2
+MOB_LEVEL_MAX_MOD = 3
+MOB_LEVEL_MIN_MOD = 2
+MOB_MAX_HEALTH_MOD = 2
+NEXT_LEVEL_XP = 10
+SPAWN_CHANCE_MOD = 1.2
+STAIRS_CHANCE = 5
+WEAPON_CHANCE_BASE = 15
+WEAPON_CHANCE_MOD = 5
+WEAPON_MAX_MOD = 0
+WEAPON_MIN_MOD = 0
+
 # The catch-all module for ZARTA
 module Zarta
   # Runs the game
@@ -43,7 +61,6 @@ module Zarta
         handle_stairs if @dungeon.room.stairs
 
         @dungeon.room = next_rooms_prompt
-        refresh
       end
     end
 

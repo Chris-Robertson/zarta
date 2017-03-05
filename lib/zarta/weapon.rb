@@ -37,7 +37,8 @@ module Zarta
     end
 
     def chance
-      rand((@dungeon.level - 2)...(@dungeon.level + 2))
+      rand((@dungeon.level - WEAPON_MIN_MOD)..
+           (@dungeon.level + WEAPON_MAX_MOD)).round
     end
 
     def inspect_weapon

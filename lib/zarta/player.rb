@@ -1,3 +1,4 @@
+require 'tty-prompt'
 # The catch-all module for Zarta
 module Zarta
   # The Bloated Beast. The Mother of Methods. The Function Fornicator.

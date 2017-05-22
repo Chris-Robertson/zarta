@@ -1,0 +1,25 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    artii (2.1.2)
+    equatable (0.5.0)
+    pastel (0.7.1)
+      equatable (~> 0.5.0)
+      tty-color (~> 0.4.0)
+    terminal-table (1.8.0)
+      unicode-display_width (~> 1.1, >= 1.1.1)
+    tty (0.1.0)
+    tty-color (0.4.2)
+    unicode-display_width (1.2.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  artii
+  pastel
+  terminal-table
+  tty
+
+BUNDLED WITH
+   1.14.6

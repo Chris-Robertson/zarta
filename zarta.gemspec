@@ -4,7 +4,7 @@
 
 Gem::Specification.new do |spec|
   spec.name           = 'zarta'
-  spec.version        = '0.0.1'
+  spec.version        = '0.0.2'
   spec.date           = '2017-03-05'
   spec.authors        = ['Chris Robertson']
   spec.email          = ['chrisxrobertson@gmail.com']

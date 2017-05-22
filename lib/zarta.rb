@@ -1,3 +1,8 @@
+require 'tty'
+require 'terminal-table'
+require 'pastel'
+require 'artii'
+
 require_relative 'zarta/main'
 require_relative 'zarta/dungeon'
 require_relative 'zarta/player'

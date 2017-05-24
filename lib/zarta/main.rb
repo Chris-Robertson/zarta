@@ -117,7 +117,9 @@ module Zarta
       puts 'You see stairs leading down here.'
       return unless @prompt.yes?('Go down?')
       @dungeon.level += 1
+      @dungeon.first_room = true
       @dungeon.room = Zarta::Room.new(@dungeon)
+
       refresh
     end
 

@@ -30,6 +30,9 @@ module Zarta
     # The number of rooms passed through since the last set of stairs.
     attr_accessor :stairs_time
 
+    # Tracks whether a room is the first of the level
+    attr_accessor :first_room
+
     # The player
     attr_accessor :player
 
@@ -53,6 +56,7 @@ module Zarta
       @max_level          = 10
       @level              = 1
       @stairs_time        = 0
+      @first_room         = true
       @player             = Zarta::Player.new(self)
       @room               = Zarta::Room.new(self)
       @score              = 0
@@ -109,7 +113,10 @@ module Zarta
 
     # If anything exciting is going to happen in this room, it starts in here.
     def populate_room
-      @enemy  = Zarta::Enemy.new(@dungeon) if enemy_spawned
+      unless @dungeon.first_room
+        @enemy = Zarta::Enemy.new(@dungeon) if enemy_spawned
+      end
+      @dungeon.first_room = false
       @weapon = Zarta::Weapon.new(@dungeon) if weapon_spawned
       @stairs = stairs_spawned
     end

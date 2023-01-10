@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
-# gem 'tty-prompt' #, '~> 0.10', '>= 0.10.1'
-gem 'tty' #, '~> 0.10', '>= 0.10.1'
-gem 'terminal-table' #, '~> 1.7.0', '>= 1.7.3'
-gem 'pastel' #, '~> 0.7.0', '>= 0.7.1'
-gem 'artii' #, '~> 2.1.0', '>= 2.1.2'
+gem 'artii' # , '~> 2.1.2
+gem 'pastel' # , '~> 0.8.0
+gem 'rubocop', group: 'development'
+gem 'terminal-table' # , '~> 3.0.2
+gem 'tty' # , '~> 0.10'
+gem 'tty-prompt' # , '~> 0.23.1

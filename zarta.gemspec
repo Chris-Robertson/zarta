@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'artii', '~> 2.1.2'
   spec.add_runtime_dependency 'pastel', '~> 0.8.0'
-  spec.add_runtime_dependency 'terminal-table', '~> 3.0.2'
+  spec.add_runtime_dependency 'terminal-table', '~> 4.0.0'
   spec.add_runtime_dependency 'tty', '~> 0.10'
   spec.add_runtime_dependency 'tty-prompt', '~> 0.23.1'
 end
